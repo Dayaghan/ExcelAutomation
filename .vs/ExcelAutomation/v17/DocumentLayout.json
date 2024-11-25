@@ -1,0 +1,151 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\new joinee_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\new joinee_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\variable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\variable.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\new_joiners_ctc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\new_joiners_ctc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\leaver_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\leaver_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\joiner-leaver_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\joiner-leaver_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\existing_changes_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\existing_changes_master.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|c:\\users\\dayaghanl\\downloads\\excelautomation\\excelhandlingdotnetpractice\\benefeciaries_data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C06901C-4243-434C-9C78-D7B61CA04BC5}|ExcelHandlingDotnetpractice\\ExcelAutomation.csproj|solutionrelative:excelhandlingdotnetpractice\\benefeciaries_data.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Leaver_Master.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Leaver_Master.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Leaver_Master.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Leaver_Master.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Leaver_Master.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABEAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T04:55:03.469Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Joiner-Leaver_Master.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Joiner-Leaver_Master.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Joiner-Leaver_Master.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Joiner-Leaver_Master.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Joiner-Leaver_Master.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAABAAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T04:54:58.173Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Program.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Program.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Program.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Program.cs",
+              "ViewState": "AgIAAFcAAAAAAAAAAAAmwF8AAAASAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-25T04:48:48.704Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "Benefeciaries_Data.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Benefeciaries_Data.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Benefeciaries_Data.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Benefeciaries_Data.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Benefeciaries_Data.cs",
+              "ViewState": "AgIAAA0AAAAAAAAAAAAAABEAAAANAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T12:27:40.918Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Existing_Changes_Master.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Existing_Changes_Master.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Existing_Changes_Master.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Existing_Changes_Master.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Existing_Changes_Master.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAiwBIAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T12:27:04.105Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Variable.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Variable.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\Variable.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\Variable.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\Variable.cs",
+              "ViewState": "AgIAAF0AAAAAAAAAAAAqwBUAAAA5AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T12:26:50.09Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "New_Joiners_Ctc.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\New_Joiners_Ctc.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\New_Joiners_Ctc.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\New_Joiners_Ctc.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\New_Joiners_Ctc.cs",
+              "ViewState": "AgIAAAcAAAAAAAAAAAAQwBEAAAB4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T12:26:38.622Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "New Joinee_Master.cs",
+              "DocumentMoniker": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\New Joinee_Master.cs",
+              "RelativeDocumentMoniker": "ExcelHandlingDotnetpractice\\New Joinee_Master.cs",
+              "ToolTip": "C:\\Users\\Dayaghanl\\Downloads\\ExcelAutomation\\ExcelHandlingDotnetpractice\\New Joinee_Master.cs",
+              "RelativeToolTip": "ExcelHandlingDotnetpractice\\New Joinee_Master.cs",
+              "ViewState": "AgIAAEMBAAAAAAAAAAAAAEYBAAA4AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-11-22T12:25:53.993Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
