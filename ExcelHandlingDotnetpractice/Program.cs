@@ -92,7 +92,6 @@ public class Program
                     await Task.Delay(500); // Wait and retry if file is still being written
                 }
             }
-
             // Call the relevant methods to process the file
             await Task.Run(() => Benefeciaries_Data.Beneficiaries_Data(filePath, destinationFolder));
             await Task.Run(() => Leaver_Master.LeaverMaster(filePath, destinationFolder));
