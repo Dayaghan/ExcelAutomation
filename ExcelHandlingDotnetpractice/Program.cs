@@ -46,9 +46,12 @@ public class Program
     }
     public static string ShrinkString(string input)
     {
+        if (input != null) { 
         input=input.ToLower();
         input=input.Replace(" ","");
         return input;
+        }
+        return "";
     }
     public static async Task Main(string[] args)
     {

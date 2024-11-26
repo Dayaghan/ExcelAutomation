@@ -287,7 +287,6 @@ namespace ExcelHandlingDotnetpractice
                                 {
                                     outputWorksheet.Cells[row7, 94].Value = adhaar;
                                 }
-                                outputWorksheet.Cells[row, 95].Value = PreferredName;
                                 var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
                                 var JobTitle = inputWorkSheet.Cells[row, 13].GetValue<string>();
@@ -343,7 +342,7 @@ namespace ExcelHandlingDotnetpractice
                                     var AscendOccupationCode = package4.Workbook.Worksheets["Occupation"];
                                     outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
                                     var AscendPayrollCode = package4.Workbook.Worksheets["Payroll Code"];
-                                    outputWorksheet.Cells[row7, 34].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
+                                    outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
                                     var AscendPFRegistrationCode = package4.Workbook.Worksheets["P.F. Registration Code"];
                                     outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
                                     var AscendLocation = package4.Workbook.Worksheets["Location"];
@@ -380,8 +379,16 @@ namespace ExcelHandlingDotnetpractice
                                         if (ifsc.Length == 11) { outputWorksheet.Cells[row7, 29].Value = ifsc; }
                                         outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, bfacno].GetValue<string>();
                                         var bankname = BenefeciariesDataSheet.Cells[row2, bfbankname].GetValue<string>();
-                                        bankname = bankname.ToLower();
-                                        bankname = bankname.Replace(" ", "");
+                                        bankname = Program.ShrinkString(bankname);
+                                        bankname = bankname.Replace("ltd", "");
+                                        bankname = bankname.Replace("limited", "");
+                                        bankname = bankname.Replace("pvt", "");
+                                        bankname = bankname.Replace(".", "");
+                                        bool containsBank = bankname.Contains("bank", StringComparison.OrdinalIgnoreCase);
+                                        if (!containsBank)
+                                        {
+                                            bankname = bankname + "bank";
+                                        }
                                         using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
                                         {
                                             var Ascendsheet = package2.Workbook.Worksheets["Primary Bank"];
@@ -389,12 +396,10 @@ namespace ExcelHandlingDotnetpractice
                                             for (int row5 = 2; row5 <= AscendLastRow; row5++)
                                             {
                                                 var bank = Ascendsheet.Cells[row5, 2].GetValue<string>();
-                                                bank = bank.Replace(" ", "");
-                                                bank = bank.ToLower();
+                                                bank = Program.ShrinkString(bank);
                                                 if (bank.Equals(bankname))
                                                 {
                                                     outputWorksheet.Cells[row7, 28].Value = Ascendsheet.Cells[row5, 1].GetValue<string>();
-
                                                 }
                                             }
                                         }

@@ -70,21 +70,30 @@ namespace ExcelHandlingDotnetpractice
                         {
                             var Ascendsheet = package2.Workbook.Worksheets["Primary Bank"];
                             int bankcode = Program.getColumnNumber(ascendcodes, Ascendsheet.ToString(), "bank code");
-                            int bankname = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "bank name");
+                            int Bankname = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "bank name");
                             int bankname2 = Program.getColumnNumber(ascendcodes, Ascendsheet.ToString(), "bank name");
                             int lastRow2 = Ascendsheet.Dimension.End.Row;
                             for (int row = 2; row <= endRow; row++)
                             {
-                                string Bankname = inputWorkSheet.Cells[row, bankname].GetValue<string>();
-                                Bankname = Bankname.ToLower();
-                                Bankname = Bankname.Trim();
+                                string bankname = inputWorkSheet.Cells[row, Bankname].GetValue<string>();
+                                bankname =Program.ShrinkString(bankname);
+                                bankname = Program.ShrinkString(bankname);
+                                bankname = bankname.Replace("ltd", "");
+                                bankname = bankname.Replace("limited", "");
+                                bankname = bankname.Replace("pvt", "");
+                                bankname = bankname.Replace(".", "");
+                                bool containsBank = bankname.Contains("bank", StringComparison.OrdinalIgnoreCase);
+                                if (!containsBank)
+                                {
+                                    bankname = bankname + "bank";
+                                }
                                 int row2 = 2;
                                 for (; row2 <= lastRow2; row2++)
                                 {
                                     string temp = Ascendsheet.Cells[row2, bankname2].GetValue<string>();
                                     temp = temp.ToLower();
                                     temp = temp.Trim();
-                                    if (temp.Equals(Bankname))
+                                    if (temp.Equals(bankname))
                                     {
                                         outputWorksheet.Cells[row, 5].Value = Ascendsheet.Cells[row2, bankcode].GetValue<string>();
                                         break;
