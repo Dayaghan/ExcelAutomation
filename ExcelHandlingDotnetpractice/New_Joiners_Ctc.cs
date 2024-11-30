@@ -56,7 +56,7 @@ namespace ExcelHandlingDotnetpractice
                             var bgColor = cell.Style.Fill.BackgroundColor;
                             if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF", StringComparison.OrdinalIgnoreCase))
                             {
-                                // HRID.Add(inputWorkSheet.Cells[row, employee_Number].GetValue<string>());
+                                HRID.Add(inputWorkSheet.Cells[row, employee_Number].GetValue<string>());
                                 outputWorksheet.Cells[row2, 1].Value = joinerandChangesSheet.Cells[row, hrid].GetValue<string>();
                                 outputWorksheet.Cells[row2, 5].Value = joinerandChangesSheet.Cells[row, town].GetValue<string>();
                                 row2++;
@@ -75,39 +75,59 @@ namespace ExcelHandlingDotnetpractice
                         //    }
                         //    row2++;
                         //}
-                        for (int row = 2; row <= lastRow; row++)
+                        //row2 = 2;
+                        //foreach (string t in HRID)
+                        //{
+                        //    for (int row = 2; row <= lastRow; row++)
+                        //    {
+                        //        if (inputWorkSheet.Cells[row, employee_Number].GetValue<string>().Equals(t))
+                        //        {
+                        //            outputWorksheet.Cells[row2, 2].Value = inputWorkSheet.Cells[row, witheffectfrom].GetValue<string>();
+                        //            if (inputWorkSheet.Cells[row, payfreq].GetValue<string>().Equals("Annual"))
+                        //            {
+                        //                outputWorksheet.Cells[row2, 3].Value = inputWorkSheet.Cells[row, annualctc].GetValue<string>();
+                        //                double monthly40 = (inputWorkSheet.Cells[row, annualctc].GetValue<double>()) / 30.0;
+                        //                monthly40 = Math.Round(monthly40);
+                        //                outputWorksheet.Cells[row2, 4].Value = monthly40;
+                        //                outputWorksheet.Cells[row2, 9].Value = 0;
+                        //                outputWorksheet.Cells[row2, 10].Value = 0;
+                        //                outputWorksheet.Cells[row2, 12].Value = Math.Round((monthly40) * 12 / 100);
+                        //                outputWorksheet.Cells[row2, 6].Value = Math.Round(outputWorksheet.Cells[row2, 4].GetValue<double>() * 0.4);
+                        //                outputWorksheet.Cells[row2, 7].Value = 0;
+                        //            }
+                        //        }
+                        //    }
+                        //    row2++;
+                        //}
+                        for (int row = 2; row <= outputWorksheet.Dimension.End.Row; row++)
                         {
-                            var cell = inputWorkSheet.Cells[row, employee_Number];
-                            // Get the background color of the cell
-                            var bgColor = cell.Style.Fill.BackgroundColor;
-                            if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF", StringComparison.OrdinalIgnoreCase))
+                            for (row2 = 2; row2 <= lastRow; row2++)
                             {
-                                HRID.Add(inputWorkSheet.Cells[row, employee_Number].GetValue<string>());
-                            }
-                        }
-                        row2 = 2;
-                        foreach (string t in HRID)
-                        {
-                            for (int row = 2; row <= lastRow; row++)
-                            {
-                                if (inputWorkSheet.Cells[row, employee_Number].GetValue<string>().Equals(t))
+                                var cell = outputWorksheet.Cells[row, 1];
+                                // Get the background color of the cell
+                                var bgColor = cell.Style.Fill.BackgroundColor;
+                                if (outputWorksheet.Cells[row, 1].GetValue<string>().Equals(inputWorkSheet.Cells[row2, employee_Number].GetValue<string>()))
                                 {
-                                    outputWorksheet.Cells[row2, 2].Value = inputWorkSheet.Cells[row, witheffectfrom].GetValue<string>();
-                                    if (inputWorkSheet.Cells[row, payfreq].GetValue<string>().Equals("Annual"))
+                                    outputWorksheet.Cells[row, 2].Value = inputWorkSheet.Cells[row2, witheffectfrom].GetValue<string>();
+                                    if (inputWorkSheet.Cells[row2, payelementdescription].GetValue<string>().Contains("connect", StringComparison.OrdinalIgnoreCase))
                                     {
-                                        outputWorksheet.Cells[row2, 3].Value = inputWorkSheet.Cells[row, annualctc].GetValue<string>();
-                                        double monthly40 = (inputWorkSheet.Cells[row, annualctc].GetValue<double>()) / 30.0;
+                                        outputWorksheet.Cells[row, 11].Value = inputWorkSheet.Cells[row2, annualctc].GetValue<string>();
+                                    }
+                                    if (inputWorkSheet.Cells[row2, payfreq].GetValue<string>().Contains("annual", StringComparison.OrdinalIgnoreCase))
+                                    {
+                                        //annual = inputWorkSheet.Cells[row, annualctc].GetValue<double>();
+                                        outputWorksheet.Cells[row, 3].Value = inputWorkSheet.Cells[row2, annualctc].GetValue<string>();
+                                        double monthly40 = (inputWorkSheet.Cells[row2, annualctc].GetValue<double>()) / 30.0;
                                         monthly40 = Math.Round(monthly40);
-                                        outputWorksheet.Cells[row2, 4].Value = monthly40;
-                                        outputWorksheet.Cells[row2, 9].Value = 0;
-                                        outputWorksheet.Cells[row2, 10].Value = 0;
-                                        outputWorksheet.Cells[row2, 12].Value = Math.Round((monthly40) * 12 / 100);
-                                        outputWorksheet.Cells[row2, 6].Value = Math.Round(outputWorksheet.Cells[row2, 4].GetValue<double>() * 0.4);
-                                        outputWorksheet.Cells[row2, 7].Value = 0;
+                                        outputWorksheet.Cells[row, 4].Value = monthly40;
+                                        outputWorksheet.Cells[row, 9].Value = 0;
+                                        outputWorksheet.Cells[row, 10].Value = 0;
+                                        outputWorksheet.Cells[row, 12].Value = Math.Round((monthly40) * 12 / 100);
+                                        outputWorksheet.Cells[row, 6].Value = Math.Round(outputWorksheet.Cells[row, 4].GetValue<double>() * 0.4);
+                                        outputWorksheet.Cells[row, 7].Value = 0;
                                     }
                                 }
                             }
-                            row2++;
                         }
                         for (int row = 2; row <= lastRow; row++)
                         {
@@ -128,27 +148,28 @@ namespace ExcelHandlingDotnetpractice
                                     outputWorksheet.Cells[row, 6].Value = outputWorksheet.Cells[row, 4].GetValue<double>() / 2;
                                 }
                                 outputWorksheet.Cells[row, 6].Value = Math.Round(outputWorksheet.Cells[row, 6].GetValue<double>());
+                                outputWorksheet.Cells[row, 8].Value = Math.Round((outputWorksheet.Cells[row, 3].GetValue<double>()) / 12 - outputWorksheet.Cells[row, 4].GetValue<double>() - outputWorksheet.Cells[row, 6].GetValue<double>() - outputWorksheet.Cells[row, 7].GetValue<double>() - outputWorksheet.Cells[row, 9].GetValue<double>());
                             }
                         }
                         row2 = 2;
-                        foreach (string t in HRID)
-                        {
-                            outputWorksheet.Cells[row2, 8].Value = Math.Round((outputWorksheet.Cells[row2, 3].GetValue<double>()) / 12 - outputWorksheet.Cells[row2, 4].GetValue<double>() - outputWorksheet.Cells[row2, 6].GetValue<double>() - outputWorksheet.Cells[row2, 7].GetValue<double>() - outputWorksheet.Cells[row2, 9].GetValue<double>());
-                            for (int row = 2; row <= lastRow; row++)
-                            {
-                                if (inputWorkSheet.Cells[row, employee_Number].GetValue<string>().Equals(t))
-                                {
-                                    string temp = inputWorkSheet.Cells[row, payelementdescription].GetValue<string>();
-                                    temp = temp.ToLower();
-                                    temp = temp.Replace(" ", "");
-                                    if (temp.Contains("connect"))
-                                    {
-                                        outputWorksheet.Cells[row2, 11].Value = inputWorkSheet.Cells[row, annualctc].GetValue<string>();
-                                    }
-                                }
-                            }
-                            row2++;
-                        }
+                        //foreach (string t in HRID)
+                        //{
+                        //    outputWorksheet.Cells[row2, 8].Value = Math.Round((outputWorksheet.Cells[row2, 3].GetValue<double>()) / 12 - outputWorksheet.Cells[row2, 4].GetValue<double>() - outputWorksheet.Cells[row2, 6].GetValue<double>() - outputWorksheet.Cells[row2, 7].GetValue<double>() - outputWorksheet.Cells[row2, 9].GetValue<double>());
+                        //    for (int row = 2; row <= lastRow; row++)
+                        //    {
+                        //        if (inputWorkSheet.Cells[row, employee_Number].GetValue<string>().Equals(t))
+                        //        {
+                        //            string temp = inputWorkSheet.Cells[row, payelementdescription].GetValue<string>();
+                        //            temp = temp.ToLower();
+                        //            temp = temp.Replace(" ", "");
+                        //            if (temp.Contains("connect"))
+                        //            {
+                        //                outputWorksheet.Cells[row2, 11].Value = inputWorkSheet.Cells[row, annualctc].GetValue<string>();
+                        //            }
+                        //        }
+                        //    }
+                        //    row2++;
+                        //}
 
                         string newFileName = Path.Combine(destinationFolder, "NEW_Joiners_Ctc_Master_" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
