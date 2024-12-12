@@ -146,6 +146,9 @@ namespace PayrollAutomationService
                         outputWorksheet.Cells[1, 81].Value = "MICR2";
                         outputWorksheet.Cells[1, 82].Value = "IsLocalAuthentication";
                         outputWorksheet.Cells[1, 83].Value = "Userdefined 1 Code";
+                        if (filePath.Contains("mcafee", StringComparison.OrdinalIgnoreCase)|| filePath.Contains("musarubra", StringComparison.OrdinalIgnoreCase)) {
+                            outputWorksheet.Cells[1, 83].Value = "Pay Scale";
+                        }
                         outputWorksheet.Cells[1, 84].Value = "Userdefined 2 Code";
                         outputWorksheet.Cells[1, 85].Value = "Note";
                         outputWorksheet.Cells[1, 86].Value = "Userdefined 4 Code";
@@ -304,6 +307,16 @@ namespace PayrollAutomationService
                                 outputWorksheet.Cells[row7, 53].Value = JobTitle;
                                 var PTLocation = inputWorkSheet.Cells[row, ptlocation].GetValue<string>();
                                 outputWorksheet.Cells[row7, 56].Value = PTLocation;
+                                string r = Program.ShrinkString(filePath);
+                                if (r.Contains("mcafee", StringComparison.OrdinalIgnoreCase)|| r.Contains("musarubra", StringComparison.OrdinalIgnoreCase))
+                                { 
+                                int EmployeeGrade = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
+                                var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
+                                    if (grade.Contains("grade", StringComparison.OrdinalIgnoreCase)) { 
+                                    grade = grade.Substring(grade.Length - 2);
+                                    }
+                                    outputWorksheet.Cells[row7, 83].Value = grade;
+                                }
                                 var Nationality = inputWorkSheet.Cells[row, nationality].GetValue<string>();
                                 outputWorksheet.Cells[row7, 105].Value = Nationality;
                                 var Pension = inputWorkSheet.Cells[row, pension].GetValue<string>();

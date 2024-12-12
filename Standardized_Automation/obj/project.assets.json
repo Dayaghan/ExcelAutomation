@@ -1,7 +1,7 @@
 {
   "version": 3,
   "targets": {
-    "net8.0": {
+    "net8.0-windows7.0": {
       "EPPlus/7.3.1": {
         "type": "package",
         "dependencies": {
@@ -1992,43 +1992,43 @@
     }
   },
   "projectFileDependencyGroups": {
-    "net8.0": [
+    "net8.0-windows7.0": [
       "EPPlus >= 7.3.1",
       "Microsoft.Extensions.Hosting >= 6.0.1",
       "Microsoft.Office.Interop.Excel >= 15.0.4795.1001"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Dayaghanl\\.nuget\\packages\\": {},
+    "C:\\Users\\admin\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Dayaghanl\\Downloads\\Standardized_Automation\\Standardized_Automation\\Standardized_Automation.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\Downloads\\Standardized_Automation\\Standardized_Automation\\Standardized_Automation.csproj",
       "projectName": "Standardized_Automation",
-      "projectPath": "C:\\Users\\Dayaghanl\\Downloads\\Standardized_Automation\\Standardized_Automation\\Standardized_Automation.csproj",
-      "packagesPath": "C:\\Users\\Dayaghanl\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Dayaghanl\\Downloads\\Standardized_Automation\\Standardized_Automation\\obj\\",
+      "projectPath": "C:\\Users\\admin\\Downloads\\Standardized_Automation\\Standardized_Automation\\Standardized_Automation.csproj",
+      "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\admin\\Downloads\\Standardized_Automation\\Standardized_Automation\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Dayaghanl\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\admin\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
-        "net8.0"
+        "net8.0-windows"
       ],
       "sources": {
         "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
-        "net8.0": {
-          "targetAlias": "net8.0",
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
           "projectReferences": {}
         }
       },
@@ -2045,8 +2045,8 @@
       "SdkAnalysisLevel": "9.0.100"
     },
     "frameworks": {
-      "net8.0": {
-        "targetAlias": "net8.0",
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows",
         "dependencies": {
           "EPPlus": {
             "target": "Package",
@@ -2089,7 +2089,7 @@
       "message": "Package 'System.Formats.Asn1' 8.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-447r-wph3-92pm",
       "libraryId": "System.Formats.Asn1",
       "targetGraphs": [
-        "net8.0"
+        "net8.0-windows7.0"
       ]
     },
     {
@@ -2099,7 +2099,7 @@
       "message": "Package 'System.Text.Json' 8.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-8g4q-xg66-9fp4",
       "libraryId": "System.Text.Json",
       "targetGraphs": [
-        "net8.0"
+        "net8.0-windows7.0"
       ]
     },
     {
@@ -2109,7 +2109,7 @@
       "message": "Package 'System.Text.Json' 8.0.0 has a known high severity vulnerability, https://github.com/advisories/GHSA-hh2w-p6rv-4g7w",
       "libraryId": "System.Text.Json",
       "targetGraphs": [
-        "net8.0"
+        "net8.0-windows7.0"
       ]
     }
   ]

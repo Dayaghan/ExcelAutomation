@@ -1,0 +1,13 @@
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\bin\Release\net8.0-windows\Standardized_Automation.deps.json
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\bin\Release\net8.0-windows\Standardized_Automation.dll
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\bin\Release\net8.0-windows\Standardized_Automation.pdb
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.csproj.AssemblyReference.cache
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.AssemblyInfoInputs.cache
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.AssemblyInfo.cs
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.csproj.CoreCompileInputs.cache
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.sourcelink.json
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.dll
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\refint\Standardized_Automation.dll
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\Standardized_Automation.pdb
+C:\Users\admin\Downloads\Standardized_Automation\Standardized_Automation\obj\Release\net8.0-windows\ref\Standardized_Automation.dll

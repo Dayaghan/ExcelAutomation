@@ -53,3 +53,4 @@ C:\Users\Dayaghanl\Downloads\Standardized_Automation\Standardized_Automation\obj
 C:\Users\Dayaghanl\Downloads\Standardized_Automation\Standardized_Automation\obj\Debug\net8.0\Standardized_Automation.pdb
 C:\Users\Dayaghanl\Downloads\Standardized_Automation\Standardized_Automation\obj\Debug\net8.0\Standardized_Automation.genruntimeconfig.cache
 C:\Users\Dayaghanl\Downloads\Standardized_Automation\Standardized_Automation\obj\Debug\net8.0\ref\Standardized_Automation.dll
+C:\Users\Dayaghanl\Downloads\Standardized_Automation\Standardized_Automation\obj\Debug\net8.0\Standardized_Automation.sourcelink.json

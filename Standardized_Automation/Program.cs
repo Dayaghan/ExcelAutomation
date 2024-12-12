@@ -92,7 +92,6 @@ public class Program
                 ascendcodes = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + "Automation_Ascent_Codes/Ascent Codes.xlsx";
                 destinationFolder = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + foldername.Substring(foldername.IndexOf('_') + 1);
             }
-
             if (!Directory.Exists(foldername))
             {
                 Directory.CreateDirectory(destinationFolder);
