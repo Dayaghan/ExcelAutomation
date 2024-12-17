@@ -277,7 +277,7 @@ namespace PayrollAutomationService
                                     }
                                     outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
                                 }
-                                 var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
+                                var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
 				                cell = inputWorkSheet.Cells[row, uan];
 				                bgColor = cell.Style.Fill.BackgroundColor;
 				                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF", StringComparison.OrdinalIgnoreCase))
@@ -303,9 +303,6 @@ namespace PayrollAutomationService
                                 {
                                     outputWorksheet.Cells[row7, 69].Value = email;
                                 }
-                                //  outputWorksheet.Cells[row7, 74].Value = HRID;
-                                // outputWorksheet.Cells[row7, 31].Value = "0000";
-                                //outputWorksheet.Cells[row7, 31].Value = "1";
                                 var date = inputWorkSheet.Cells[row, dob].GetValue<string>();
                                 date = date.Replace(" ", "");
                                 if ((date.Length == 10) && (date[4] == '-'))
@@ -417,62 +414,6 @@ namespace PayrollAutomationService
                                     }
                                     outputWorksheet.Cells[row7, 101].Value = Pension;
                                 }
-
-                                //for (row2 = 2; row2 <= OrgAssignmentsDataSheetLastRow; row2++)
-                                //{
-                                //    var id = OrgAssignmentsDataSheet.Cells[row2, 1].GetValue<string>();
-                                //    if (id.Equals(HRID))
-                                //    {
-                                //        //outputWorksheet.Cells[row7, 54].Value = OrgAssignmentsDataSheet.Cells[row2, 7].GetValue<string>(); ;
-
-                                //    }
-                                //}
-                                //using (var package4 = new ExcelPackage(new FileInfo(ascendcodes))) { 
-                                //    var AscendStatusCode = package4.Workbook.Worksheets["Status"];
-                                //    outputWorksheet.Cells[row7, 51].Value = AscendStatusCode.Cells[2, 1].GetValue<string>(); ;
-                                //    var AscendGradeCode = package4.Workbook.Worksheets["Grade"];
-                                //    outputWorksheet.Cells[row7, 52].Value = AscendGradeCode.Cells[2, 1].GetValue<string>(); ;
-                                //    var AscendBusinessAreaCode = package4.Workbook.Worksheets["Business Area"];
-                                //    outputWorksheet.Cells[row7, 55].Value = AscendBusinessAreaCode.Cells[2, 1].GetValue<string>(); ;
-                                //    var AscendCategoryCode = package4.Workbook.Worksheets["Category"];
-                                //    outputWorksheet.Cells[row7, 50].Value = AscendCategoryCode.Cells[2, 1].GetValue<string>(); ;
-                                //    var AscendOccupationCode = package4.Workbook.Worksheets["Occupation"];
-                                //    outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
-                                //    var AscendPFRegistrationCode = package4.Workbook.Worksheets["P.F. Registration Code"];
-                                //    outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
-                                //}
-
-                                //for (row2 = 2; row2 <= BenefeciarieslastRow; row2++)
-                                //{
-                                //    var id = BenefeciariesDataSheet.Cells[row2, 2].GetValue<string>();
-                                //    if (HRID.Equals(id))
-                                //    {
-                                //        var ifsc = BenefeciariesDataSheet.Cells[row2, 10].GetValue<string>();
-                                //        ifsc = ifsc.Replace(" ", "");
-                                //        if (ifsc.Length == 11) { outputWorksheet.Cells[row7, 29].Value = ifsc; }
-                                //        outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, 8].GetValue<string>();
-                                //        var bankname = BenefeciariesDataSheet.Cells[row2, 16].GetValue<string>();
-                                //        bankname = bankname.ToLower();
-                                //        bankname = bankname.Replace(" ", "");
-                                //        using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
-                                //        {
-                                //            var AscendsheetPrimaryBank = package2.Workbook.Worksheets["Primary Bank"];
-
-                                //            int AscendLastRow = AscendsheetPrimaryBank.Dimension.End.Row;
-                                //            for (int row5 = 2; row5 <= AscendLastRow; row5++)
-                                //            {
-                                //                var bank = AscendsheetPrimaryBank.Cells[row5, 2].GetValue<string>();
-                                //                bank = bank.Replace(" ", "");
-                                //                bank = bank.ToLower();
-                                //                if (bank.Equals(bankname))
-                                //                {
-                                //                    outputWorksheet.Cells[row7, 28].Value = AscendsheetPrimaryBank.Cells[row5, 1].GetValue<string>();
-
-                                //                }
-                                //            }
-                                //        }
-                                //    }
-                                //}
                                 row7++;
                             }
                         }
@@ -525,7 +466,6 @@ namespace PayrollAutomationService
                                 outputPackage.Workbook.Worksheets.Delete(i);
                             }
                         }
-
                         string newFileName = Path.Combine(destinationFolder, "Existing_Changes_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();

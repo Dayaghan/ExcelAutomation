@@ -58,6 +58,8 @@ namespace PayrollAutomationService
                     int bfacno = Program.getColumnNumber(filePath, BenefeciariesDataSheet.ToString(), "Account Number");
                     int nationality = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "Nationality");
                     int ptlocation = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), " PT Location");
+                    int FatherorHusbandName = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name");
+                    int relation = Program.getColumnNumber(filePath, inputWorkSheet.ToString(), "Relation");
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     int BenefeciarieslastRow = BenefeciariesDataSheet.Dimension.End.Row;
                     using (var outputPackage = new ExcelPackage())
@@ -223,6 +225,28 @@ namespace PayrollAutomationService
                                         break;
                                 }
                                 outputWorksheet.Cells[row7, 2].Value = Gender;
+                                var fatherhusband = inputWorkSheet.Cells[row,FatherorHusbandName].GetValue<string>();
+                                outputWorksheet.Cells[row7,6].Value=fatherhusband;
+                                var Emprelation = inputWorkSheet.Cells[row,relation].GetValue<string>();
+                                Emprelation=Program.ShrinkString(Emprelation);
+                                switch (Emprelation) {
+                                    case "father":
+                                        Emprelation = "F";
+                                        outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                        break;
+                                    case "husband":
+                                        Emprelation = "H";
+                                        outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                        break;
+                                    case "f":
+                                        Emprelation = "F";
+                                        outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                        break;
+                                    case "h":
+                                        Emprelation = "H";
+                                        outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                        break;
+                                }
                                 var MaritalStatus = inputWorkSheet.Cells[row, marriedornot].GetValue<string>();
                                 MaritalStatus = MaritalStatus.ToUpper();
                                 MaritalStatus = MaritalStatus.Replace(" ", "");
@@ -257,16 +281,16 @@ namespace PayrollAutomationService
                                         break;
                                 }
                                 outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
-                                var Address = inputWorkSheet.Cells[row, add1].GetValue<string>();
-                                outputWorksheet.Cells[row7, 14].Value = Address;
-                                Address = inputWorkSheet.Cells[row, add2].GetValue<string>();
-                                outputWorksheet.Cells[row7, 15].Value = Address;
-                                Address = inputWorkSheet.Cells[row, add3].GetValue<string>();
-                                outputWorksheet.Cells[row7, 16].Value = Address;
-                                Address = inputWorkSheet.Cells[row, town].GetValue<string>();
-                                outputWorksheet.Cells[row7, 17].Value = Address;
-                                Address = inputWorkSheet.Cells[row, pincode].GetValue<string>();
-                                outputWorksheet.Cells[row7, 19].Value = Address;
+                                //var Address = inputWorkSheet.Cells[row, add1].GetValue<string>();
+                                //outputWorksheet.Cells[row7, 14].Value = Address;
+                                //Address = inputWorkSheet.Cells[row, add2].GetValue<string>();
+                                //outputWorksheet.Cells[row7, 15].Value = Address;
+                                //Address = inputWorkSheet.Cells[row, add3].GetValue<string>();
+                                //outputWorksheet.Cells[row7, 16].Value = Address;
+                                //Address = inputWorkSheet.Cells[row, town].GetValue<string>();
+                                //outputWorksheet.Cells[row7, 17].Value = Address;
+                                //Address = inputWorkSheet.Cells[row, pincode].GetValue<string>();
+                                //outputWorksheet.Cells[row7, 19].Value = Address;
                                 var email = inputWorkSheet.Cells[row, emailid].GetValue<string>();
                                 outputWorksheet.Cells[row7, 69].Value = email;
                                 outputWorksheet.Cells[row7, 74].Value = HRID;
@@ -374,8 +398,8 @@ namespace PayrollAutomationService
                                     outputWorksheet.Cells[row7, 50].Value = AscendCategoryCode.Cells[2, 1].GetValue<string>(); ;
                                     var AscendOccupationCode = package4.Workbook.Worksheets["Occupations"];
                                     outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
-                                    //var AscendPayrollCode = package4.Workbook.Worksheets["Payroll Code"];
-                                    //outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
+                                    var AscendPayrollCode = package4.Workbook.Worksheets["Payroll Code"];
+                                    outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
                                     var AscendPFRegistrationCode = package4.Workbook.Worksheets["P.F. Registration Code"];
                                     outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
                                     //var AscendLocation = package4.Workbook.Worksheets["Location"];

@@ -59,8 +59,8 @@ public class Program
     }
     public static async Task Main(string[] args)
     {
-        string sourceFolder = @"C:\Automation";     // Folder to watch for Excel files
-        string destinationFolder = @"C:/Automation/output";
+        string sourceFolder = @"D:\Automation";     // Folder to watch for Excel files
+        string destinationFolder = @"D:/Automation/output";
         string ascendcodes = "C:/Automation/Twilio_Twilio Technology/Automation_Ascent_Codes/Ascent Codes.xlsx";
         if (!Directory.Exists(sourceFolder) || !Directory.Exists(destinationFolder))
         {
@@ -85,12 +85,26 @@ public class Program
     {
         try
         {
+            string result="";
             string foldername = Path.GetFileName(filePath);
 
             if (foldername.IndexOf('_') != -1)
             {
-                ascendcodes = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + "Automation_Ascent_Codes/Ascent Codes.xlsx";
-                destinationFolder = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + foldername.Substring(foldername.IndexOf('_') + 1);
+                string[] parts = foldername.Split('_');
+
+                // Check if there are enough parts to get the 4th last '_'
+                if (parts.Length > 4)
+                {
+                    // Join the parts before the 4th last '_'
+                    result = string.Join("_", parts, 0, parts.Length - 4);
+                    Console.WriteLine("Result: " + result);
+                }
+                else
+                {
+                    Console.WriteLine("The string doesn't contain enough underscores.");
+                }
+                ascendcodes = destinationFolder + "/" +result + "/" + "Automation_Ascent_Codes/Ascent Codes.xlsx";
+                destinationFolder = destinationFolder + "/" +result+"/"+foldername;
             }
             if (!Directory.Exists(foldername))
             {
