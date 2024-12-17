@@ -117,6 +117,7 @@ namespace ExcelAutomationService
             }
             catch (Exception ex)
             {
+                Service1.ErrorCount++;
                 Service1.Log($"An error occurred: {ex.Message}");
             }
         }

@@ -16,11 +16,12 @@ namespace ExcelAutomationService
 {
     public partial class Service1 : ServiceBase
     {
+        public static int ErrorCount=0;
         Timer timer = new Timer();
         string sourceFolder = @"C:\Automation";     // Folder to watch for Excel files
         string destinationFolder = @"C:/Automation/output";
         string ascendcodes = "C:/Automation/Twilio_Twilio Technology/Automation_Ascent_Codes/Ascent Codes.xlsx";
-        
+       
         public Service1()
         {
             InitializeComponent();
@@ -150,11 +151,33 @@ namespace ExcelAutomationService
                 //await Task.Run(() => New_Joiners_Ctc.CTC_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
-                Console.WriteLine($"Processed file: {Path.GetFileName(filePath)}");
+                string archived = @"C:\Automation\Archived";
+                string errors = @"C:\Automation\Errors";
+                if (!Directory.Exists(archived))
+                {
+                    Directory.CreateDirectory(archived);
+                }
+                if (!Directory.Exists(errors))
+                {
+                    Directory.CreateDirectory(errors);
+                }
+                if (File.Exists(filePath))
+                {
+                    if (ErrorCount == 0)
+                    {
+                        File.Move(filePath, Path.Combine(archived, Path.GetFileName(filePath)));
+                    }
+                    else
+                    {
+                        File.Move(filePath, Path.Combine(errors, Path.GetFileName(filePath)));
+                        ErrorCount = 0;
+                    }
+                }
+                Log($"Processed file: {Path.GetFileName(filePath)}");
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Error processing file {Path.GetFileName(filePath)}: {ex.Message}");
+               Log($"Error processing file {Path.GetFileName(filePath)}: {ex.Message}");
             }
         }
         protected override void OnStop()
@@ -165,13 +188,14 @@ namespace ExcelAutomationService
         {
             try
             {
-                string _logFilePath = @"C:\ServiceLogs\AutomationService.log";
+                DateTime today = DateTime.Today;
+                string _logFilePath = @"C:\ServiceLogs\"+today.ToString("dd/MMMM/yyyy")+"AutomationService.log";
                 Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
                 File.AppendAllText(_logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
             }
             catch (Exception ex)
             {
-                Log(ex.Message );
+                Log(ex.Message);
                 // Fail silently if logging fails to avoid crashing the service
             }
         }

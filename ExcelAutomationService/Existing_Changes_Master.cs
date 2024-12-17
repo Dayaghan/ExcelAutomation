@@ -471,14 +471,23 @@ namespace ExcelAutomationService
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         outputPackage.Workbook.Worksheets.Delete(0);
-                        outputPackage.SaveAs(newFileInfo);
-                        outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
-                        Service1.Log("Existing_Changes_Master Excel file created successfully!");
+                        if (outputPackage.Workbook.Worksheets.Count != 0)
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.Log("Existing_Changes_Master Excel file created successfully!");
+                        }
+                        else
+                        {
+                            Service1.Log("No existing employee changes");
+                        }
+                        
                     }
                 }
             }
             catch (Exception ex)
             {
+                Service1.ErrorCount++;
                 Service1.Log($"An error occurred: {ex.Message}");
             }
         }

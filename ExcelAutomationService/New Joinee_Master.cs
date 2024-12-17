@@ -474,12 +474,13 @@ namespace ExcelAutomationService
                         outputPackage.SaveAs(newFileInfo);
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
                         Service1.Log("New_joinee_Master Excel file created successfully!");
-                        File.Delete(filePath);
+                        //File.Delete(filePath);
                     }
                 }
             }
             catch (Exception ex)
             {
+                Service1.ErrorCount++;
                 Service1.Log($"An error occurred: {ex.Message}");
             }
         }
