@@ -36,7 +36,7 @@ namespace ExcelAutomationService
                     int ln = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "surname");
                     int gender = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Gender");
                     int erelation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "relation");
-                   // int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
+                    // int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
                     int add1 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 01");
                     int add2 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 02");
                     int add3 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 03");
@@ -148,7 +148,8 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[1, 81].Value = "MICR2";
                         outputWorksheet.Cells[1, 82].Value = "IsLocalAuthentication";
                         outputWorksheet.Cells[1, 83].Value = "Userdefined 1 Code";
-                        if (filePath.ToLower().Contains("mcafee")|| filePath.ToLower().Contains("musarubra")) {
+                        if (filePath.ToLower().Contains("mcafee") || filePath.ToLower().Contains("musarubra"))
+                        {
                             outputWorksheet.Cells[1, 83].Value = "Pay Scale";
                         }
                         outputWorksheet.Cells[1, 84].Value = "Userdefined 2 Code";
@@ -225,11 +226,12 @@ namespace ExcelAutomationService
                                         break;
                                 }
                                 outputWorksheet.Cells[row7, 2].Value = Gender;
-                                var fatherhusband = inputWorkSheet.Cells[row,FatherorHusbandName].GetValue<string>();
-                                outputWorksheet.Cells[row7,6].Value=fatherhusband;
-                                var Emprelation = inputWorkSheet.Cells[row,relation].GetValue<string>();
-                                Emprelation=Service1.ShrinkString(Emprelation);
-                                switch (Emprelation) {
+                                var fatherhusband = inputWorkSheet.Cells[row, FatherorHusbandName].GetValue<string>();
+                                outputWorksheet.Cells[row7, 6].Value = fatherhusband;
+                                var Emprelation = inputWorkSheet.Cells[row, relation].GetValue<string>();
+                                Emprelation = Service1.ShrinkString(Emprelation);
+                                switch (Emprelation)
+                                {
                                     case "father":
                                         Emprelation = "F";
                                         outputWorksheet.Cells[row7, 7].Value = Emprelation;
@@ -309,40 +311,43 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 63].Value = date;
                                     outputWorksheet.Cells[row7, 103].Value = date;
                                 }
-                                var pan = inputWorkSheet.Cells[row, pancard].GetValue<string>();
-                                pan = pan.Replace(" ", "");
-                                if ((pan.Length == 10) && (pan[3] == 'P'))
-                                {
-                                    outputWorksheet.Cells[row7, 60].Value = pan;
-                                }
-                                if (pan.Length == 0)
-                                {
-                                    outputWorksheet.Cells[row7, 60].Value = "PANNOTAVBLE";
-                                }
-                                var adhaar = (inputWorkSheet.Cells[row, Aadhar].GetValue<string>()).Replace(" ", "");
-
-                                if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)))
-                                {
+                                var pan = inputWorkSheet.Cells[row, pancard].Text;
+                                pan = Service1.ValidatePAN(inputWorkSheet.ToString(),HRID,pan);
+                                outputWorksheet.Cells[row7, 60].Value = pan;
+                                //pan = pan.Replace(" ", "");
+                                //if ((pan.Length == 10) && (pan[3] == 'P'))
+                                //{
+                                //    outputWorksheet.Cells[row7, 60].Value = pan;
+                                //}
+                                //if (pan.Length == 0)
+                                //{
+                                //    outputWorksheet.Cells[row7, 60].Value = "PANNOTAVBLE";
+                                //}
+                                var adhaar = (inputWorkSheet.Cells[row, Aadhar].Text).Replace(" ", "");
+                                adhaar = Service1.ValidateAadhar(inputWorkSheet.ToString(),HRID,adhaar);
+                                //if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)))
+                                //{
                                     outputWorksheet.Cells[row7, 94].Value = adhaar;
-                                }
-                                var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
+                                //}
+                                var UAN = inputWorkSheet.Cells[row, uan].Text; ;
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
-                                var JobTitle = inputWorkSheet.Cells[row, 13].GetValue<string>();
+                                var JobTitle = inputWorkSheet.Cells[row, 13].Text;
                                 outputWorksheet.Cells[row7, 53].Value = JobTitle;
-                                var PTLocation = inputWorkSheet.Cells[row, ptlocation].GetValue<string>();
+                                var PTLocation = inputWorkSheet.Cells[row, ptlocation].Text;
                                 outputWorksheet.Cells[row7, 56].Value = PTLocation;
                                 string r = Service1.ShrinkString(filePath);
-                                if (r.Contains("mcafee")|| r.Contains("musarubra"))
-                                { 
-                                int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
-                                var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
+                                if (r.Contains("mcafee") || r.Contains("musarubra"))
+                                {
+                                    int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
+                                    var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
                                     grade = Service1.ShrinkString(grade);
-                                    if (grade.Contains("grade")) { 
-                                    grade = grade.Substring(grade.Length - 2);
+                                    if (grade.Contains("grade"))
+                                    {
+                                        grade = grade.Substring(grade.Length - 2);
                                     }
                                     outputWorksheet.Cells[row7, 83].Value = grade;
                                 }
-                                var Nationality = inputWorkSheet.Cells[row, nationality].GetValue<string>();
+                                var Nationality = inputWorkSheet.Cells[row, nationality].Text;
                                 outputWorksheet.Cells[row7, 105].Value = Nationality;
                                 var Pension = inputWorkSheet.Cells[row, pension].GetValue<string>();
                                 Pension = Pension.ToLower();

@@ -96,7 +96,59 @@ namespace ExcelAutomationService
                 throw;
             }
         }
+        public static string ValidateAadhar(string sheetname, string hrid, string adhaar)
+        {
+            adhaar = adhaar.Replace(" ", "");
+            if (adhaar.Length == 0)
+            {
+                Log(hrid + " comment: aadhar number not given in " + sheetname + " sheet.");
+                return "";
+            }
+            if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)&&(adhaar.Length != 0)))
+                return adhaar;
+            else
+            {
+                Log(hrid+" comment: adhaar number "+ adhaar + " is not valid in " + sheetname + " sheet.");
+                return "";
+            }
 
+        }
+        public static string ValidatePAN(string sheetname, string hrid, string pan)
+        {
+            pan = pan.Replace(" ", "");
+            if ((pan.Length == 10) && (pan[3] == 'P'))
+                return pan;
+            if (pan.Length == 0)
+            {
+                Log( hrid + " PAN is empty in " + sheetname + " sheet.");
+                return "PANNOTAVBLE";
+            }
+            else
+            {
+                Log(hrid + " comment: pan number "+pan+" is not valid in " + sheetname + " sheet.");
+                return "";
+            }
+        }
+        public static string ValidateDate(string date)
+        {
+            return date;
+        }
+        public static string ValidateIFSC(string sheetname, string hrid, string ifsc)
+        {
+            ifsc = ifsc.Replace(" ", "");
+            if (ifsc.Length == 0)
+            {
+                Log(hrid+" comment:IFSC code is not given in " + sheetname + " sheet.");
+                return "";
+            }
+            if (ifsc.Length == 11)
+                return ifsc;
+            else
+            {
+                Log(hrid+" comment:IFSC "+ ifsc +" is not valid in " + sheetname + " sheet.");
+                return "";
+            }
+        }
         public static string ShrinkString(string input)
         {
             if (input != null)

@@ -49,12 +49,16 @@ namespace ExcelAutomationService
                                 continue;
                             }
                             var HRID = inputWorkSheet.Cells[row, hrid].GetValue<string>();
-                            var BENEFICIARYNAME = inputWorkSheet.Cells[row, benefeciaryname].GetValue<string>();
-                            var PrimaryBankAcNO = inputWorkSheet.Cells[row, acno].GetValue<string>();
-                            var IFSC = inputWorkSheet.Cells[row, ifsc].GetValue<string>();
+                            var BENEFICIARYNAME = inputWorkSheet.Cells[row, benefeciaryname].Text;
+                            var PrimaryBankAcNO = inputWorkSheet.Cells[row, acno].Text;
+                            var IFSC = inputWorkSheet.Cells[row, ifsc].Text;
+                            IFSC = Service1.ValidateIFSC(inputWorkSheet.ToString(),HRID,IFSC);
                             outputWorksheet.Cells[row3, 1].Value = HRID;
                             Regex validCharsRegex = new Regex("[^a-zA-Z ]");
                             BENEFICIARYNAME = validCharsRegex.Replace(BENEFICIARYNAME, "");
+                            if (BENEFICIARYNAME == "") {
+                                Service1.Log(HRID+" comment:hrid's benefeciary name is not available.");
+                            }
                             outputWorksheet.Cells[row3, 2].Value = BENEFICIARYNAME;
                             if ((PrimaryBankAcNO.All(char.IsDigit)))
                             {
