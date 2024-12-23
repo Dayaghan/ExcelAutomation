@@ -31,15 +31,15 @@ namespace ExcelAutomationService
                     int ln = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "surname");
                     int gender = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Gender");
                     int erelation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "relation");
-                    int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
+                    //int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
                     int add1 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 01");
                     int add2 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 02");
                     int add3 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 03");
                     int town = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "town");
                     int pincode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "ZIP / Postal Code");
                     int marriedornot = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "marital status");
-                    int ifsccode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "sort code");
-                    int acno = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "account number");
+                    //int ifsccode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "sort code");
+                    //int acno = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "account number");
                     int dob = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "date of birth");
                     int payrollstartdate = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Payroll Start Date");
                     int jobtitle = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "job title");
@@ -487,6 +487,7 @@ namespace ExcelAutomationService
             }
             catch (Exception ex)
             {
+                Service1.Log("Existing error");
                 Service1.ErrorCount++;
                 Service1.Log($"An error occurred: {ex.Message}");
             }

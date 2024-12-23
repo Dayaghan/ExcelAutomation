@@ -36,15 +36,15 @@ namespace ExcelAutomationService
                     int ln = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "surname");
                     int gender = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Gender");
                     int erelation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "relation");
-                    int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
+                   // int dateofleaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "payroll end date");
                     int add1 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 01");
                     int add2 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 02");
                     int add3 = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Address line 03");
                     int town = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "town");
                     int pincode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "ZIP / Postal Code");
                     int marriedornot = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "marital status");
-                    int ifsccode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "sort code");
-                    int acno = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "account number");
+                    //int ifsccode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "sort code");
+                    //int acno = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "account number");
                     int dob = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "date of birth");
                     int payrollstartdate = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Payroll Start Date");
                     int jobtitle = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "job title");
@@ -148,7 +148,7 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[1, 81].Value = "MICR2";
                         outputWorksheet.Cells[1, 82].Value = "IsLocalAuthentication";
                         outputWorksheet.Cells[1, 83].Value = "Userdefined 1 Code";
-                        if (filePath.Contains("mcafee")|| filePath.Contains("musarubra")) {
+                        if (filePath.ToLower().Contains("mcafee")|| filePath.ToLower().Contains("musarubra")) {
                             outputWorksheet.Cells[1, 83].Value = "Pay Scale";
                         }
                         outputWorksheet.Cells[1, 84].Value = "Userdefined 2 Code";
@@ -336,6 +336,7 @@ namespace ExcelAutomationService
                                 { 
                                 int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                                 var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
+                                    grade = Service1.ShrinkString(grade);
                                     if (grade.Contains("grade")) { 
                                     grade = grade.Substring(grade.Length - 2);
                                     }
@@ -388,8 +389,10 @@ namespace ExcelAutomationService
                                 //}
                                 using (var package4 = new ExcelPackage(new FileInfo(ascendcodes)))
                                 {
-                                    var AscendStatusCode = package4.Workbook.Worksheets["Status"];
-                                    outputWorksheet.Cells[row7, 51].Value = AscendStatusCode.Cells[2, 1].GetValue<string>(); ;
+                                    int n = Service1.getSheetNumber(ascendcodes, "Status");
+                                    var AscendStatusCode = package4.Workbook.Worksheets[n];
+                                    outputWorksheet.Cells[row7, 51].Value = AscendStatusCode.Cells[2, 1].GetValue<string>();
+                                    n = Service1.getSheetNumber(ascendcodes, "Grades");
                                     var AscendGradeCode = package4.Workbook.Worksheets["Grades"];
                                     outputWorksheet.Cells[row7, 52].Value = AscendGradeCode.Cells[2, 1].GetValue<string>(); ;
                                     var AscendBusinessAreaCode = package4.Workbook.Worksheets["Business Area"];
@@ -400,7 +403,8 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
                                     var AscendPayrollCode = package4.Workbook.Worksheets["Payroll Code"];
                                     outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
-                                    var AscendPFRegistrationCode = package4.Workbook.Worksheets["P.F. Registration Code"];
+                                    n = Service1.getSheetNumber(ascendcodes, "P.F. Registration Code");
+                                    var AscendPFRegistrationCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
                                     //var AscendLocation = package4.Workbook.Worksheets["Location"];
                                     //string location = inputWorkSheet.Cells[row, ptlocation].GetValue<string>();

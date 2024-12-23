@@ -78,14 +78,14 @@
     </dependentAssembly>
   </dependency>
   <dependency>
-    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAutomationService.exe" size="44976">
+    <dependentAssembly dependencyType="install" allowDelayedBinding="true" codebase="ExcelAutomationService.exe" size="47024">
       <assemblyIdentity name="ExcelAutomationService" version="1.0.0.0" language="neutral" processorArchitecture="msil" />
       <hash>
         <dsig:Transforms>
           <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
         </dsig:Transforms>
         <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-        <dsig:DigestValue>St1DJrvqLgO5xlvuZ0FhHahLJz25TJlxWgyhdRqZi/s=</dsig:DigestValue>
+        <dsig:DigestValue>t5nnP4YC6TgARLRURP9UKClfo8bYWLoHkEhbS8UqAto=</dsig:DigestValue>
       </hash>
     </dependentAssembly>
   </dependency>
@@ -533,13 +533,13 @@
       </hash>
     </dependentAssembly>
   </dependency>
-  <file name="ExcelAutomationService.exe.config" size="1339">
+  <file name="ExcelAutomationService.exe.config" size="1476">
     <hash>
       <dsig:Transforms>
         <dsig:Transform Algorithm="urn:schemas-microsoft-com:HashTransforms.Identity" />
       </dsig:Transforms>
       <dsig:DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha256" />
-      <dsig:DigestValue>6pZdxBukdUP+6dxIYUv0w9f4TTbfcAepv21HX6k3x4w=</dsig:DigestValue>
+      <dsig:DigestValue>1+RFfsUMWcdl8C+XFc1jTvDtQBqrwcInvPS4fQSSJNE=</dsig:DigestValue>
     </hash>
   </file>
 </asmv1:assembly>

@@ -22,7 +22,7 @@ namespace ExcelAutomationService
                     using (var outputPackage = new ExcelPackage())
                     {
                         int hrid = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "HR ID");
-                        int dateofLeaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Payroll End Date");
+                       // int dateofLeaving = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Payroll End Date");
                        // int payrollcode = getRowNumber(filePath, inputWorkSheet.ToString(), "Payroll Code");
                         //int inactiveid = getRowNumber(filePath, inputWorkSheet.ToString(), "InactiveID\r\n");
                        // int dateofresign = getRowNumber(filePath, inputWorkSheet.ToString(), "Date Of Resign (YYYY-MM-DD)");
