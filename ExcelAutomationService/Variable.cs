@@ -107,7 +107,7 @@ namespace ExcelAutomationService
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
                     }
                 }
-                Service1.Log($"Variable Excel file created successfully at {outputFilePath}!");
+                //Service1.Log($"Variable Excel file created successfully at {outputFilePath}!");
             }
             catch (Exception ex)
             {

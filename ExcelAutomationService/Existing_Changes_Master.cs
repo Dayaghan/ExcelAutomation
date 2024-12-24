@@ -475,7 +475,7 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
-                            Service1.Log("Existing_Changes_Master Excel file created successfully!");
+                            //Service1.Log("Existing_Changes_Master Excel file created successfully!");
                         }
                         else
                         {

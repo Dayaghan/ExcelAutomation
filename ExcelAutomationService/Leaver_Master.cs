@@ -48,7 +48,7 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         outputPackage.SaveAs(newFileInfo);
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
-                        Service1.Log("Leaver_Master Excel file created successfully!");
+                        //Service1.Log("Leaver_Master Excel file created successfully!");
                     }
                 }
             }

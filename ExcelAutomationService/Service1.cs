@@ -161,7 +161,6 @@ namespace ExcelAutomationService
         }
         protected override void OnStart(string[] args)
         {
-
             timer.Interval = 1000;
             timer.Enabled = true;
             if (!Directory.Exists(sourceFolder) || !Directory.Exists(destinationFolder))
@@ -203,7 +202,8 @@ namespace ExcelAutomationService
                         {
                             Console.WriteLine(folderName);
                             destinationFolder = destinationFolder + "/" + folderName;
-                            ascendcodes = destinationFolder + "/Automation_Ascent_Codes/Ascent Codes.xlsx";
+                            string[] referencefile=Directory.GetFiles((destinationFolder + "/Ascent Codes"), "*.xlsx");
+                            ascendcodes = destinationFolder + "/Ascent Codes/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             Console.WriteLine(ascendcodes);
                             break;
@@ -224,7 +224,8 @@ namespace ExcelAutomationService
                         if (temp == count)
                         {
                             destinationFolder = destinationFolder + "/" + folderName;
-                            ascendcodes = destinationFolder + "/Automation_Ascent_Codes/Ascent Codes.xlsx";
+                            string[] referencefile = Directory.GetFiles((destinationFolder + "/Ascent Codes"), "*.xlsx");
+                            ascendcodes = destinationFolder + "/Ascent Codes/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             Console.WriteLine(ascendcodes);
                             break;

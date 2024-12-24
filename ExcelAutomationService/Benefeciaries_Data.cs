@@ -101,6 +101,11 @@ namespace ExcelAutomationService
                                 {
                                     string temp = Ascendsheet.Cells[row2, bankname2].GetValue<string>();
                                     temp = Service1.ShrinkString(temp);
+                                    containsBank = temp.Contains("bank");
+                                    if (!containsBank)
+                                    {
+                                        temp = temp + "bank";
+                                    }
                                     if (temp.Equals(bankname))
                                     {
                                         outputWorksheet.Cells[row, 5].Value = Ascendsheet.Cells[row2, bankcode].GetValue<string>();
@@ -117,7 +122,7 @@ namespace ExcelAutomationService
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
                     }
                 }
-                Service1.Log("Beneficiaries Data Excel file created successfully!");
+                //Service1.Log("Beneficiaries Data Excel file created successfully!");
             }
             catch (Exception ex)
             {
