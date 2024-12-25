@@ -168,14 +168,15 @@ namespace ExcelAutomationService
                 Console.WriteLine("Source or destination folder does not exist. Please check paths.");
                 return;
             }
+            Log("Service started");
+            Log("Watching for Excel files in " + sourceFolder);
             FileSystemWatcher watcher = new FileSystemWatcher(sourceFolder, "*.xlsx")
             {
                 NotifyFilter = NotifyFilters.FileName | NotifyFilters.CreationTime
             };
             watcher.Created += async (sender, e) => await ProcessFile(ascendcodes, e.FullPath, destinationFolder);
             watcher.EnableRaisingEvents = true;
-            Log("Service started");
-            Log("Watching for Excel files in " + sourceFolder);
+            
             //Log("Press Enter to exit...");
             Console.ReadLine();
         }
@@ -202,8 +203,8 @@ namespace ExcelAutomationService
                         {
                             Console.WriteLine(folderName);
                             destinationFolder = destinationFolder + "/" + folderName;
-                            string[] referencefile=Directory.GetFiles((destinationFolder + "/Ascent Codes"), "*.xlsx");
-                            ascendcodes = destinationFolder + "/Ascent Codes/" + Path.GetFileName(referencefile[0]);
+                            string[] referencefile=Directory.GetFiles((destinationFolder), "*.xlsx");
+                            ascendcodes = destinationFolder + "/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             Console.WriteLine(ascendcodes);
                             break;
@@ -224,8 +225,8 @@ namespace ExcelAutomationService
                         if (temp == count)
                         {
                             destinationFolder = destinationFolder + "/" + folderName;
-                            string[] referencefile = Directory.GetFiles((destinationFolder + "/Ascent Codes"), "*.xlsx");
-                            ascendcodes = destinationFolder + "/Ascent Codes/" + Path.GetFileName(referencefile[0]);
+                            string[] referencefile = Directory.GetFiles((destinationFolder), "*.xlsx");
+                            ascendcodes = destinationFolder + "/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             Console.WriteLine(ascendcodes);
                             break;

@@ -91,8 +91,9 @@ namespace ExcelAutomationService
                             bool containsShift = temp.Contains("shift");
                             if (containsEncashment || containsHoliday || containsOvertime || containsShift)
                             {
+                                int OutputLastRow = outputWorksheet.Dimension.End.Row;
                                 // Define the range for the entire column
-                                var columnRange = outputWorksheet.Cells[1, column, lastRow, column];
+                                var columnRange = outputWorksheet.Cells[1, column, OutputLastRow, column];
                                 // Apply fill color
                                 columnRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                                 columnRange.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);

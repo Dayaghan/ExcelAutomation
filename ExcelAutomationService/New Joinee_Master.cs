@@ -331,6 +331,10 @@ namespace ExcelAutomationService
                                 //}
                                 var UAN = inputWorkSheet.Cells[row, uan].Text; ;
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
+                                if (UAN == "" || UAN == null)
+                                {
+                                    Service1.Log(HRID+" Comment:UAN is not present in "+ inputWorkSheet.ToString()+" sheet.");
+                                }
                                 var JobTitle = inputWorkSheet.Cells[row, 13].Text;
                                 outputWorksheet.Cells[row7, 53].Value = JobTitle;
                                 var PTLocation = inputWorkSheet.Cells[row, ptlocation].Text;
@@ -443,8 +447,9 @@ namespace ExcelAutomationService
                                     {
                                         Regex validCharsRegex = new Regex("[^a-zA-Z ]");
                                         outputWorksheet.Cells[row7, 95].Value = validCharsRegex.Replace(BenefeciariesDataSheet.Cells[row2, primarynameasperbank].GetValue<string>(), "");
-                                        var ifsc = BenefeciariesDataSheet.Cells[row2, bfifsc].GetValue<string>();
+                                        var ifsc = BenefeciariesDataSheet.Cells[row2, bfifsc].Text;
                                         ifsc = ifsc.Replace(" ", "");
+                                        ifsc = Service1.ValidateIFSC(inputWorkSheet.ToString(), HRID, ifsc);
                                         if (ifsc.Length == 11) { outputWorksheet.Cells[row7, 29].Value = ifsc; }
                                         outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, bfacno].GetValue<string>();
                                         var bankname = BenefeciariesDataSheet.Cells[row2, bfbankname].GetValue<string>();
