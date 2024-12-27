@@ -139,7 +139,7 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[1, 81].Value = "MICR2";
                         outputWorksheet.Cells[1, 82].Value = "IsLocalAuthentication";
                         outputWorksheet.Cells[1, 83].Value = "Userdefined 1 Code";
-                        if (filePath.Contains("mcafee") || filePath.Contains("musarubra"))
+                        if (filePath.ToLower().Contains("mcafee") || filePath.ToLower().Contains("musarubra"))
                         {
                             outputWorksheet.Cells[1, 83].Value = "Pay Scale";
                         }
@@ -179,13 +179,11 @@ namespace ExcelAutomationService
                         int row7 = 2;
                         for (row = 2; row <= lastRow; row++)
                         {
-
                             var cell = inputWorkSheet.Cells[row, employeenumber];
                             // Get the background color of the cell
                             var bgColor = cell.Style.Fill.BackgroundColor;
                             if (string.IsNullOrEmpty(bgColor.Rgb) || bgColor.Rgb.Equals("FFFFFF"))
                             {
-
                                 var HRID = inputWorkSheet.Cells[row, employeenumber].GetValue<string>();
                                 outputWorksheet.Cells[row7, 1].Value = HRID;
 
@@ -363,15 +361,16 @@ namespace ExcelAutomationService
                                 {
                                     outputWorksheet.Cells[row7, 56].Value = PTLocation;
                                 }
-                                if (filePath.Contains("mcafee") || filePath.Contains("musarubra"))
+                                if (filePath.ToLower().Contains("mcafee") || filePath.ToLower().Contains("musarubra"))
                                 {
                                     int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                                     var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
+                                    string gr = grade.ToLower();
                                     cell = inputWorkSheet.Cells[row, EmployeeGrade];
                                     // Get the background color of the cell
                                     bgColor = cell.Style.Fill.BackgroundColor;
                                     if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
-                                        if (grade.Contains("grade"))
+                                        if (gr.Contains("grade"))
                                         {
                                         grade = grade.Substring(grade.Length - 2);
                                         }

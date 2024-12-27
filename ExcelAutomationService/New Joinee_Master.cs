@@ -344,8 +344,8 @@ namespace ExcelAutomationService
                                 {
                                     int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                                     var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
-                                    grade = Service1.ShrinkString(grade);
-                                    if (grade.Contains("grade"))
+                                    string gr=grade.ToLower();
+                                    if (gr.Contains("grade"))
                                     {
                                         grade = grade.Substring(grade.Length - 2);
                                     }
@@ -402,15 +402,19 @@ namespace ExcelAutomationService
                                     var AscendStatusCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 51].Value = AscendStatusCode.Cells[2, 1].GetValue<string>();
                                     n = Service1.getSheetNumber(ascendcodes, "Grades");
-                                    var AscendGradeCode = package4.Workbook.Worksheets["Grades"];
-                                    outputWorksheet.Cells[row7, 52].Value = AscendGradeCode.Cells[2, 1].GetValue<string>(); ;
-                                    var AscendBusinessAreaCode = package4.Workbook.Worksheets["Business Area"];
-                                    outputWorksheet.Cells[row7, 55].Value = AscendBusinessAreaCode.Cells[2, 1].GetValue<string>(); ;
-                                    var AscendCategoryCode = package4.Workbook.Worksheets["Categories"];
-                                    outputWorksheet.Cells[row7, 50].Value = AscendCategoryCode.Cells[2, 1].GetValue<string>(); ;
-                                    var AscendOccupationCode = package4.Workbook.Worksheets["Occupations"];
+                                    var AscendGradeCode = package4.Workbook.Worksheets[n];
+                                    outputWorksheet.Cells[row7, 52].Value = AscendGradeCode.Cells[2, 1].GetValue<string>();
+                                    n = Service1.getSheetNumber(ascendcodes, "Business Area");
+                                    var AscendBusinessAreaCode = package4.Workbook.Worksheets[n];
+                                    outputWorksheet.Cells[row7, 55].Value = AscendBusinessAreaCode.Cells[2, 1].GetValue<string>();
+                                    n = Service1.getSheetNumber(ascendcodes, "Categories");
+                                    var AscendCategoryCode = package4.Workbook.Worksheets[n];
+                                    outputWorksheet.Cells[row7, 50].Value = AscendCategoryCode.Cells[2, 1].GetValue<string>();
+                                    n = Service1.getSheetNumber(ascendcodes, "Occupations");
+                                    var AscendOccupationCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
-                                    var AscendPayrollCode = package4.Workbook.Worksheets["Payroll Code"];
+                                    n = Service1.getSheetNumber(ascendcodes, "Payroll Code");
+                                    var AscendPayrollCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
                                     n = Service1.getSheetNumber(ascendcodes, "P.F. Registration Code");
                                     var AscendPFRegistrationCode = package4.Workbook.Worksheets[n];

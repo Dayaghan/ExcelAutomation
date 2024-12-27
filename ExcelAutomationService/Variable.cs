@@ -18,7 +18,8 @@ namespace ExcelAutomationService
                 string outputFilePath = Path.Combine(destinationFolder, "Variable_Pay_Summary.xlsx");
                 using (var package = new ExcelPackage(new FileInfo(filePath)))
                 {
-                    var inputWorkSheet = package.Workbook.Worksheets["Variable Pay Inputs Data"];
+                    int IP = Service1.getSheetNumber(filePath, "Variable Pay Inputs Data");
+                    var inputWorkSheet = package.Workbook.Worksheets[IP];
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     // Get column numbers for relevant headers
                     int hridCol = Service1.getColumnNumber(filePath, inputWorkSheet.Name, "HR ID");

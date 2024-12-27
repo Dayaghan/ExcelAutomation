@@ -77,8 +77,8 @@ namespace ExcelAutomationService
                         int endRow = outputWorksheet.Dimension.End.Row;
                         using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
                         {
-                            //int n = Service1.getSheetNumber(ascendcodes, "%bank%");
-                            var Ascendsheet = package2.Workbook.Worksheets["Banks Detailed"];
+                           int n = Service1.getSheetNumber(ascendcodes, "Banks Detailed");
+                            var Ascendsheet = package2.Workbook.Worksheets[n];
                             int bankcode = Service1.getColumnNumber(ascendcodes, Ascendsheet.ToString(), "Code");
                             int Bankname = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Bank Name");
                             int bankname2 = Service1.getColumnNumber(ascendcodes, Ascendsheet.ToString(), "Name of Bank");

@@ -17,7 +17,8 @@ namespace ExcelAutomationService
             {
                 using (var package = new ExcelPackage(new FileInfo(filePath)))
                 {
-                    var inputWorkSheet = package.Workbook.Worksheets["Joiner Leaver"];// Assuming the data is in the first worksheet
+                    int IP = Service1.getSheetNumber(filePath, "Joiner Leaver");
+                    var inputWorkSheet = package.Workbook.Worksheets[IP];// Assuming the data is in the first worksheet
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     using (var outputPackage = new ExcelPackage())
                     {
@@ -34,7 +35,6 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[1, 5].Value = "Date Of Resign (YYYY-MM-DD)";
                         for (int row = 2; row <= lastRow; row++)
                         {
-                            
                             var HRID = inputWorkSheet.Cells[row, hrid].GetValue<string>();
                             //var DateOfLeaving = inputWorkSheet.Cells[row, dateofLeaving].GetValue<string>();
 

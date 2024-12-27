@@ -17,7 +17,8 @@ namespace ExcelAutomationService
             {
                 using (var package = new ExcelPackage(new FileInfo(filePath)))
                 {
-                    var inputWorkSheet = package.Workbook.Worksheets["Leavers Data"];// Assuming the data is in the first worksheet
+                    int IP = Service1.getSheetNumber(filePath, "Leavers Data");
+                    var inputWorkSheet = package.Workbook.Worksheets[IP];// Assuming the data is in the first worksheet
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     using (var outputPackage = new ExcelPackage())
                     {

@@ -29,6 +29,7 @@ namespace ExcelAutomationService
         {
             InitializeComponent();
         }
+        //Method to get position of column
         public static int getColumnNumber(string filepath, string worksheetname, string columnname)
         {
             try
@@ -64,6 +65,7 @@ namespace ExcelAutomationService
                 throw;
             }
         }
+        //Method to get position of Sheet
         public static int getSheetNumber(string filepath, string worksheetname)
         {
             try
@@ -96,6 +98,7 @@ namespace ExcelAutomationService
                 throw;
             }
         }
+        //Method to Validate Aadhaar
         public static string ValidateAadhar(string sheetname, string hrid, string adhaar)
         {
             adhaar = adhaar.Replace(" ", "");
@@ -111,8 +114,8 @@ namespace ExcelAutomationService
                 Log(hrid+" comment: adhaar number "+ adhaar + " is not valid in " + sheetname + " sheet.");
                 return "";
             }
-
         }
+        //Method to Validate PAN
         public static string ValidatePAN(string sheetname, string hrid, string pan)
         {
             pan = pan.Replace(" ", "");
@@ -133,6 +136,7 @@ namespace ExcelAutomationService
         {
             return date;
         }
+        //Method to Validate IFSC
         public static string ValidateIFSC(string sheetname, string hrid, string ifsc)
         {
             ifsc = ifsc.Replace(" ", "");
@@ -194,6 +198,7 @@ namespace ExcelAutomationService
                 string[] directories = Directory.GetDirectories(destinationFolder);
 
                 // Extract only the folder names
+                //method to find right folder
                 string[] folderNames = Array.ConvertAll(directories, dir => Path.GetFileName(dir.ToLower()));
                 foreach (string folderName in folderNames)
                 {
@@ -210,6 +215,7 @@ namespace ExcelAutomationService
                             break;
                         }
                     }
+                    //in case of spaces in folder name
                     else
                     {
                         string[] parts = folderName.Split(' ');
@@ -233,11 +239,6 @@ namespace ExcelAutomationService
                         }
                     }
                 }
-                //if (foldername.IndexOf('_') != -1)
-                //{
-                //    ascendcodes = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + "Automation_Ascent_Codes/Ascent Codes.xlsx";
-                //    destinationFolder = destinationFolder + "/" + foldername.Substring(0, foldername.IndexOf('_')) + "/" + foldername.Substring(0, foldername.IndexOf('_'))+ " " + formattedDate;
-                //}
                 if (!Directory.Exists(foldername))
                 {
                     Directory.CreateDirectory(destinationFolder);
@@ -267,7 +268,7 @@ namespace ExcelAutomationService
                 await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
                
-               
+               //action after processing
                 if (!Directory.Exists(archived))
                 {
                     Directory.CreateDirectory(archived);
