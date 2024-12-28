@@ -22,6 +22,7 @@ namespace ExcelAutomationService
         public static int ErrorCount=0;
         Timer timer = new Timer();
         string sourceFolder = @"E:\PAYROLL_SERVER\Automation\Input";     // Folder to watch for Excel files
+        public static string destination = @"E:/PAYROLL_SERVER/Automation/output";
         string destinationFolder = @"E:/PAYROLL_SERVER/Automation/output";
         string ascendcodes = "E:/PAYROLL_SERVER/Automation/Twilio_Twilio Technology/Automation_Ascent_Codes/Ascent Codes.xlsx";
        
@@ -61,7 +62,7 @@ namespace ExcelAutomationService
             }
             catch (Exception e)
             {
-                Log(columnname+" column was not found in"+worksheetname+" of "+filepath+" file.");
+                PathLog(columnname+" column was not found in"+worksheetname+" of "+filepath+" file.");
                 throw;
             }
         }
@@ -86,7 +87,7 @@ namespace ExcelAutomationService
                     }
                     i = 0;
                     if (i==0) {
-                        Log(worksheetname + " sheet was not found in " + filepath);
+                        PathLog(worksheetname + " sheet was not found in " + filepath);
                         ErrorCount++;
                     }
                     return i;
@@ -94,7 +95,7 @@ namespace ExcelAutomationService
             }
             catch (Exception e)
             {
-                Log(e.Message);
+                PathLog(e.Message);
                 throw;
             }
         }
@@ -104,14 +105,14 @@ namespace ExcelAutomationService
             adhaar = adhaar.Replace(" ", "");
             if (adhaar.Length == 0)
             {
-                Log(hrid + " comment: aadhar number not given in " + sheetname + " sheet.");
+                PathLog(hrid + "  aadhar number not given in " + sheetname + " sheet.");
                 return "";
             }
             if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)&&(adhaar.Length != 0)))
                 return adhaar;
             else
             {
-                Log(hrid+" comment: adhaar number "+ adhaar + " is not valid in " + sheetname + " sheet.");
+                PathLog(hrid+"  adhaar number "+ adhaar + " is not valid in " + sheetname + " sheet.");
                 return "";
             }
         }
@@ -123,12 +124,12 @@ namespace ExcelAutomationService
                 return pan;
             if (pan.Length == 0)
             {
-                Log( hrid + " PAN is empty in " + sheetname + " sheet.");
+                PathLog( hrid + " PAN is empty in " + sheetname + " sheet.");
                 return "PANNOTAVBLE";
             }
             else
             {
-                Log(hrid + " comment: pan number "+pan+" is not valid in " + sheetname + " sheet.");
+                PathLog(hrid + "  pan number "+pan+" is not valid in " + sheetname + " sheet.");
                 return "";
             }
         }
@@ -142,14 +143,14 @@ namespace ExcelAutomationService
             ifsc = ifsc.Replace(" ", "");
             if (ifsc.Length == 0)
             {
-                Log(hrid+" comment:IFSC code is not given in " + sheetname + " sheet.");
+                PathLog(hrid+" IFSC code is not given in " + sheetname + " sheet.");
                 return "";
             }
             if (ifsc.Length == 11)
                 return ifsc;
             else
             {
-                Log(hrid+" comment:IFSC "+ ifsc +" is not valid in " + sheetname + " sheet.");
+                PathLog(hrid+" IFSC "+ ifsc +" is not valid in " + sheetname + " sheet.");
                 return "";
             }
         }
@@ -211,6 +212,7 @@ namespace ExcelAutomationService
                             string[] referencefile=Directory.GetFiles((destinationFolder), "*.xlsx");
                             ascendcodes = destinationFolder + "/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
+                            destination = destinationFolder;
                             Console.WriteLine(ascendcodes);
                             break;
                         }
@@ -234,6 +236,7 @@ namespace ExcelAutomationService
                             string[] referencefile = Directory.GetFiles((destinationFolder), "*.xlsx");
                             ascendcodes = destinationFolder + "/" + Path.GetFileName(referencefile[0]);
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
+                            destination = destinationFolder;
                             Console.WriteLine(ascendcodes);
                             break;
                         }
@@ -318,6 +321,21 @@ namespace ExcelAutomationService
             {
                 DateTime today = DateTime.Today;
                 string _logFilePath = @"E:\PAYROLL_SERVER\Automation\ServiceLogs\" + today.ToString("dd/MMMM/yyyy")+"_PayrollAutomationService.log";
+                Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
+                File.AppendAllText(_logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
+            }
+            catch (Exception ex)
+            {
+                //Log(ex.Message);
+                // Fail silently if logging fails to avoid crashing the service
+            }
+        }
+        public static void PathLog(string message)
+        {
+            try
+            {
+                DateTime today = DateTime.Today;
+                string _logFilePath = destination +"/"+ today.ToString("dd/MMMM/yyyy") + "_PayrollAutomationService.log";
                 Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
                 File.AppendAllText(_logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
             }

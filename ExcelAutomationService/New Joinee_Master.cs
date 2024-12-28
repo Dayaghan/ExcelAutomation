@@ -333,7 +333,7 @@ namespace ExcelAutomationService
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
                                 if (UAN == "" || UAN == null)
                                 {
-                                    Service1.Log(HRID+" Comment:UAN is not present in "+ inputWorkSheet.ToString()+" sheet.");
+                                    Service1.PathLog(HRID+" :UAN is not present in "+ inputWorkSheet.ToString()+" sheet.");
                                 }
                                 var JobTitle = inputWorkSheet.Cells[row, 13].Text;
                                 outputWorksheet.Cells[row7, 53].Value = JobTitle;
