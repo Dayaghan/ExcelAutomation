@@ -118,8 +118,13 @@ namespace ExcelAutomationService
                         string newFileName = Path.Combine(destinationFolder, "Benificieries Data_" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
-                        outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " "))
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        }
                     }
                 }
                 //Service1.Log("Beneficiaries Data Excel file created successfully!");

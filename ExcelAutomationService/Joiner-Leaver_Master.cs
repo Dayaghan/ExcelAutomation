@@ -51,8 +51,13 @@ namespace ExcelAutomationService
                         string newFileName = Path.Combine(destinationFolder, "Joiner Leaver_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ")&& (cellValue != " "))
+                        { 
                         outputPackage.SaveAs(newFileInfo);
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        }
                         //Service1.Log("Joiner_Leaver_Master Excel file created successfully!");
                     }
                 }

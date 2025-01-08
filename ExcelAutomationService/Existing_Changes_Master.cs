@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.Common;
 
 namespace ExcelAutomationService
 {
@@ -413,6 +414,9 @@ namespace ExcelAutomationService
                                             break;
                                     }
                                     outputWorksheet.Cells[row7, 101].Value = Pension;
+                                    //var cell2 = outputWorksheet.Cells[row7, 101];
+                                    //cell2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                    //cell2.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
                                 }
                                 row7++;
                             }
@@ -451,6 +455,16 @@ namespace ExcelAutomationService
                                         outputWorksheets.Cells[m, k - 1].Value = outputWorksheet.Cells[l, 1].GetValue<string>();
                                         outputWorksheets.Cells[m, k].Value = outputWorksheet.Cells[l, j].GetValue<string>();
                                         m++;
+                                        outputWorksheets.Cells[outputWorksheets.Dimension.Address].AutoFitColumns();
+                                    }
+                                    if (sheetname.ToLower().Contains("pension") || sheetname.ToLower().Contains("uan"))
+                                    {
+                                        int OutputLastRow = outputWorksheets.Dimension.End.Row;
+                                        outputWorksheets.Cells[2, 3].Value = "Before processing kindly confirm with client.";
+                                        var columnRange = outputWorksheets.Cells[1, 2, OutputLastRow, 2];
+                                        columnRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                                        columnRange.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
+                                       
                                     }
                                 }
                             }
@@ -478,7 +492,7 @@ namespace ExcelAutomationService
                         }
                         else
                         {
-                            Service1.Log("No existing employee changes");
+                            Service1.PathLog("No existing employee changes");
                         }
                         
                     }

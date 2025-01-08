@@ -410,6 +410,9 @@ namespace ExcelAutomationService
                                     n = Service1.getSheetNumber(ascendcodes, "Categories");
                                     var AscendCategoryCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 50].Value = AscendCategoryCode.Cells[2, 1].GetValue<string>();
+                                    n = Service1.getSheetNumber(ascendcodes, "Cost Centers");
+                                    var AscendCostCenterCode = package4.Workbook.Worksheets[n];
+                                    outputWorksheet.Cells[row7, 54].Value = AscendCostCenterCode.Cells[2, 1].GetValue<string>();
                                     n = Service1.getSheetNumber(ascendcodes, "Occupations");
                                     var AscendOccupationCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 58].Value = AscendOccupationCode.Cells[2, 1].GetValue<string>();
@@ -475,6 +478,11 @@ namespace ExcelAutomationService
                                             {
                                                 var bank = Ascendsheet.Cells[row5, 2].GetValue<string>();
                                                 bank = Service1.ShrinkString(bank);
+                                                containsBank = bank.Contains("bank");
+                                                if (!containsBank)
+                                                {
+                                                    bank = bank + "bank";
+                                                }
                                                 if (bank.Equals(bankname))
                                                 {
                                                     outputWorksheet.Cells[row7, 28].Value = Ascendsheet.Cells[row5, 1].GetValue<string>();
