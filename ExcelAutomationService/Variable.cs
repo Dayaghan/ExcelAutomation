@@ -12,7 +12,6 @@ namespace ExcelAutomationService
     {
         public static void Variable_Pay_Inputs_Data(string ascendcodes, string filePath, string destinationFolder)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             try
             {
                 string outputFilePath = Path.Combine(destinationFolder, "Variable_Pay_Summary.xlsx");
@@ -92,6 +91,7 @@ namespace ExcelAutomationService
                             bool containsShift = temp.Contains("shift");
                             if (containsEncashment || containsHoliday || containsOvertime || containsShift)
                             {
+                                Service1.PathLog("check for encashment/holiday/Overtime/shift is in units or amount in variable file.");
                                 int OutputLastRow = outputWorksheet.Dimension.End.Row;
                                 // Define the range for the entire column
                                 var columnRange = outputWorksheet.Cells[1, column, OutputLastRow, column];
@@ -105,8 +105,17 @@ namespace ExcelAutomationService
                         // outputPackage.SaveAs(new FileInfo(outputFilePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
-                        outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " "))
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        }
+                        else
+                        {
+                            Service1.PathLog("no variable file created");
+                        }
                     }
                 }
                 //Service1.Log($"Variable Excel file created successfully at {outputFilePath}!");

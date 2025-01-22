@@ -54,6 +54,10 @@ namespace ExcelAutomationService
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
                         }
+                        else
+                        {
+                            Service1.PathLog("Leaver file not created");
+                        }
                         //Service1.Log("Leaver_Master Excel file created successfully!");
                     }
                 }

@@ -13,7 +13,6 @@ namespace ExcelAutomationService
     {
         public static void Beneficiaries_Data(string ascendcodes,string filePath, string destinationFolder)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             try
             {
                 using (var package = new ExcelPackage(new FileInfo(filePath)))
@@ -124,6 +123,9 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        }
+                        else {
+                            Service1.PathLog("no existing benefeciaries file created");
                         }
                     }
                 }

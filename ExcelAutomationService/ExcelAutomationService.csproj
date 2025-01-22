@@ -257,6 +257,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Synchronoss_new_CTC.cs" />
     <Compile Include="Variable.cs" />
   </ItemGroup>
   <ItemGroup>

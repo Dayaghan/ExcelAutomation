@@ -5,6 +5,8 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
+using System.Net;
 using System.ServiceProcess;
 using System.Text;
 using System.Threading.Tasks;
@@ -29,6 +31,61 @@ namespace ExcelAutomationService
         public Service1()
         {
             InitializeComponent();
+        }
+        public static void SendEmails(string[] emailAddresses, string subject, string body)
+        {
+            try
+            {
+                // SMTP server configuration
+                string smtpHost = "smtp.gmail.com"; // Replace with your SMTP server
+                int smtpPort = 587; // Port number (e.g., 587 for TLS, 465 for SSL)
+                string smtpUser = "donotreplyservice.trial@gmail.com"; // Replace with your email
+                string smtpPass = "sepw vpre vcdb usal"; // Replace with your email password
+
+                // Initialize the SMTP client
+                using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
+                {
+                    smtpClient.Credentials = new NetworkCredential(smtpUser, smtpPass);
+                    smtpClient.EnableSsl = true; // Enable SSL/TLS for security
+
+                    // Loop through the recipient emails
+                    foreach (string recipientEmail in emailAddresses)
+                    {
+                        using (MailMessage mail = new MailMessage())
+                        {
+                            mail.From = new MailAddress(smtpUser); // Sender's email address
+                            mail.To.Add(recipientEmail); // Add recipient email
+                            mail.Subject = subject; // Email subject
+                            mail.Body = body; // Email body
+                            mail.IsBodyHtml = false; // Set to true if the body contains HTML content
+
+                            // Send the email
+                            smtpClient.Send(mail);
+                            Console.WriteLine($"Email sent to: {recipientEmail}");
+                        }
+                    }
+                }
+
+                 // All emails sent successfully
+            }
+            catch (Exception ex)
+            {
+                Log($"Error sending emails: {ex.Message}");
+               // Return false if any email fails to send
+            }
+        }
+        public static string CapitalizeEachWord(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return input; // Return the input as is if it's null, empty, or whitespace
+            }
+
+            // Split the string into words, capitalize each word, and join them back
+            return string.Join(" ", input
+                .Split(' ') // Split the string by spaces
+                .Where(word => !string.IsNullOrWhiteSpace(word)) // Ignore extra spaces
+                .Select(word => char.ToUpper(word[0]) + word.Substring(1).ToLower())); // Capitalize each word
         }
         //Method to get position of column
         public static int getColumnNumber(string filepath, string worksheetname, string columnname)
@@ -267,7 +324,9 @@ namespace ExcelAutomationService
                 await Task.Run(() => Leaver_Master.LeaverMaster(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Joiner_Leaver_Master.JoinerLeaverMaster(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Variable.Variable_Pay_Inputs_Data(ascendcodes, filePath, destinationFolder));
-                //await Task.Run(() => New_Joiners_Ctc.CTC_Master(ascendcodes, filePath, destinationFolder));
+                if (filePath.ToLower().Contains("synchronoss")) { 
+                await Task.Run(() => Synchronoss_new_CTC.CTC_Master(ascendcodes, filePath, destinationFolder));
+                }
                 await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
                
@@ -313,7 +372,12 @@ namespace ExcelAutomationService
         }
         protected override void OnStop()
         {
+            DateTime today = DateTime.Today;
             Log("Service stopped.");
+            string[] recipients = { "dayaghan.limaye@paylineindia.com" };
+            string subject = "Service Stopeed";
+            string body = "PayrollAutomation service was stopped at:"+ $"{DateTime.Now}"+ "\n\nRegards,\nEmailService";
+            //SendEmails(recipients, subject, body);
         }
         public static void Log(string message)
         {

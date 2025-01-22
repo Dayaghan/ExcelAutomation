@@ -16,7 +16,6 @@ namespace ExcelAutomationService
     {
         public static void NewJoinee_Master(string ascendcodes, string filePath, string destinationFolder)
         {
-            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
             try
             {
                 using (var package = new ExcelPackage(new FileInfo(filePath)))
@@ -452,11 +451,11 @@ namespace ExcelAutomationService
                                     var id = BenefeciariesDataSheet.Cells[row2, bfhrid].GetValue<string>();
                                     if (HRID.Equals(id))
                                     {
-                                        Regex validCharsRegex = new Regex("[^a-zA-Z ]");
-                                        outputWorksheet.Cells[row7, 95].Value = validCharsRegex.Replace(BenefeciariesDataSheet.Cells[row2, primarynameasperbank].GetValue<string>(), "");
+                                        Regex validCharsRegex = new Regex("[^a-zA-Z ]");//logic to remove special characters
+                                        outputWorksheet.Cells[row7, 95].Value = Service1.CapitalizeEachWord(validCharsRegex.Replace(BenefeciariesDataSheet.Cells[row2, primarynameasperbank].GetValue<string>(), ""));
                                         var ifsc = BenefeciariesDataSheet.Cells[row2, bfifsc].Text;
                                         ifsc = ifsc.Replace(" ", "");
-                                        ifsc = Service1.ValidateIFSC(inputWorkSheet.ToString(), HRID, ifsc);
+                                        ifsc = Service1.ValidateIFSC(BenefeciariesDataSheet.ToString(), HRID, ifsc);
                                         if (ifsc.Length == 11) { outputWorksheet.Cells[row7, 29].Value = ifsc; }
                                         outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, bfacno].GetValue<string>();
                                         var bankname = BenefeciariesDataSheet.Cells[row2, bfbankname].GetValue<string>();
@@ -497,8 +496,17 @@ namespace ExcelAutomationService
                         string newFileName = Path.Combine(destinationFolder, "New Joinee_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
-                        outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " "))
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                        }
+                        else
+                        {
+                            Service1.PathLog("no new joiners file created");
+                        }
                         //Service1.Log("New_joinee_Master Excel file created successfully!");
                         //File.Delete(filePath);
                     }
