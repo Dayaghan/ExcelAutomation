@@ -239,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Benefeciaries_Data.cs" />
+    <Compile Include="CTC_new joiner.cs" />
     <Compile Include="Existing_Changes_Master.cs" />
     <Compile Include="Joiner-Leaver_Master.cs" />
     <Compile Include="Leaver_Master.cs" />

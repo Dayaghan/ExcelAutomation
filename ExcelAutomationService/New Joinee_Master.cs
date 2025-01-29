@@ -211,20 +211,10 @@ namespace ExcelAutomationService
                                 }
                                 outputWorksheet.Cells[row7, 8].Value = Firstname + " " + LastName;
                                 var Gender = inputWorkSheet.Cells[row, gender].GetValue<string>();
-                                Gender = Service1.ShrinkString(Gender);
-                                switch (Gender)
-                                {
-                                    case "male":
-                                        Gender = "M";
-                                        break;
-                                    case "female":
-                                        Gender = "F";
-                                        break;
-                                    case "transgender":
-                                        Gender = "T";
-                                        break;
-                                }
+                                //Method to Validate Gender
+                                Gender = Service1.ValidateGender(Gender);
                                 outputWorksheet.Cells[row7, 2].Value = Gender;
+
                                 var fatherhusband = inputWorkSheet.Cells[row, FatherorHusbandName].GetValue<string>();
                                 outputWorksheet.Cells[row7, 6].Value = fatherhusband;
                                 var Emprelation = inputWorkSheet.Cells[row, relation].GetValue<string>();
@@ -234,6 +224,9 @@ namespace ExcelAutomationService
                                     case "father":
                                         Emprelation = "F";
                                         outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                        break;
+                                    case "":
+                                        Service1.PathLog(HRID+":"+ "EmpRelation is not present in "+inputWorkSheet.ToString()+" sheet.");
                                         break;
                                     case "husband":
                                         Emprelation = "H";
@@ -249,38 +242,8 @@ namespace ExcelAutomationService
                                         break;
                                 }
                                 var MaritalStatus = inputWorkSheet.Cells[row, marriedornot].GetValue<string>();
-                                MaritalStatus = MaritalStatus.ToUpper();
-                                MaritalStatus = MaritalStatus.Replace(" ", "");
-                                switch (MaritalStatus)
-                                {
-                                    case "BACHELOR":
-                                        MaritalStatus = "B";
-                                        break;
-                                    case "B":
-                                        MaritalStatus = "B";
-                                        break;
-                                    case "BACHLOR":
-                                        MaritalStatus = "B";
-                                        break;
-                                    case "MARRIED":
-                                        MaritalStatus = "M";
-                                        break;
-                                    case "M":
-                                        MaritalStatus = "M";
-                                        break;
-                                    case "WIDOW":
-                                        MaritalStatus = "W";
-                                        break;
-                                    case "W":
-                                        MaritalStatus = "W";
-                                        break;
-                                    case "WIDOWED":
-                                        MaritalStatus = "W";
-                                        break;
-                                    default:
-                                        MaritalStatus = "B";
-                                        break;
-                                }
+                                //Method to validate marital status
+                                MaritalStatus=Service1.ValidateMaritalStatus(MaritalStatus);
                                 outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
                                 //var Address = inputWorkSheet.Cells[row, add1].GetValue<string>();
                                 //outputWorksheet.Cells[row7, 14].Value = Address;
@@ -311,24 +274,15 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 103].Value = date;
                                 }
                                 var pan = inputWorkSheet.Cells[row, pancard].Text;
+
                                 pan = Service1.ValidatePAN(inputWorkSheet.ToString(),HRID,pan);
                                 outputWorksheet.Cells[row7, 60].Value = pan;
-                                //pan = pan.Replace(" ", "");
-                                //if ((pan.Length == 10) && (pan[3] == 'P'))
-                                //{
-                                //    outputWorksheet.Cells[row7, 60].Value = pan;
-                                //}
-                                //if (pan.Length == 0)
-                                //{
-                                //    outputWorksheet.Cells[row7, 60].Value = "PANNOTAVBLE";
-                                //}
+
                                 var adhaar = (inputWorkSheet.Cells[row, Aadhar].Text).Replace(" ", "");
+
                                 adhaar = Service1.ValidateAadhar(inputWorkSheet.ToString(),HRID,adhaar);
-                                //if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)))
-                                //{
-                                    outputWorksheet.Cells[row7, 94].Value = adhaar;
-                                //}
-                                var UAN = inputWorkSheet.Cells[row, uan].Text; ;
+                                outputWorksheet.Cells[row7, 94].Value = adhaar;
+                                var UAN = inputWorkSheet.Cells[row, uan].Text;
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
                                 if (UAN == "" || UAN == null)
                                 {
@@ -421,29 +375,6 @@ namespace ExcelAutomationService
                                     n = Service1.getSheetNumber(ascendcodes, "P.F. Registration Code");
                                     var AscendPFRegistrationCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
-                                    //var AscendLocation = package4.Workbook.Worksheets["Location"];
-                                    //string location = inputWorkSheet.Cells[row, ptlocation].GetValue<string>();
-                                    //location = Service1.ShrinkString(location);
-                                    //for (row2 = 2; row2 <= BenefeciarieslastRow; row2++)
-                                    //{
-                                    //    string loc = AscendLocation.Cells[row2, 2].GetValue<string>();
-                                    //    loc = Service1.ShrinkString(loc);
-                                    //    if (loc.Equals(location))
-                                    //    {
-                                    //        outputWorksheet.Cells[row7, 56].Value = AscendLocation.Cells[row2, 1].GetValue<string>();
-                                    //    }
-                                    //}
-                                    //outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();
-                                    //var AscendCostCenterSheet = package4.Workbook.Worksheets["Cost Centre"];
-                                    //int AscendCostCenterLastRow = AscendCostCenterSheet.Dimension.End.Row;
-                                    //for (int i = 2; i <= AscendCostCenterLastRow; i++)
-                                    //{
-                                    //    if (Service1.ShrinkString(locationcode).Equals(Service1.ShrinkString(AscendCostCenterSheet.Cells[i, 2].GetValue<string>())))
-                                    //    {
-                                    //        outputWorksheet.Cells[row7, 54].Value = AscendCostCenterSheet.Cells[i, 1].GetValue<string>();
-                                    //        break;
-                                    //    }
-                                    //}
                                 }
                                 outputWorksheet.Cells[row7, 101].Value = Pension;
                                 for (row2 = 2; row2 <= BenefeciarieslastRow; row2++)
@@ -471,8 +402,14 @@ namespace ExcelAutomationService
                                         }
                                         using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
                                         {
-                                            var Ascendsheet = package2.Workbook.Worksheets["Banks Detailed"];
+                                            int t = Service1.getSheetNumber(ascendcodes, "Locations");
+                                            var LocationSheet = package2.Workbook.Worksheets[t];
+                                            t = Service1.getSheetNumber(ascendcodes, "Banks Detailed");
+                                            var Ascendsheet = package2.Workbook.Worksheets[t];
                                             int AscendLastRow = Ascendsheet.Dimension.End.Row;
+                                            int LocationsLastRow = LocationSheet.Dimension.End.Row;
+                                            int description = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "description");
+                                            int code = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "code");
                                             for (int row5 = 2; row5 <= AscendLastRow; row5++)
                                             {
                                                 var bank = Ascendsheet.Cells[row5, 2].GetValue<string>();
@@ -485,6 +422,12 @@ namespace ExcelAutomationService
                                                 if (bank.Equals(bankname))
                                                 {
                                                     outputWorksheet.Cells[row7, 28].Value = Ascendsheet.Cells[row5, 1].GetValue<string>();
+                                                }
+                                            }
+                                            for (int row3=1;row3<=LocationsLastRow;row3++) 
+                                            {
+                                                if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower())) {
+                                                    outputWorksheet.Cells[row7, 56].Value = LocationSheet.Cells[row3, code].Text;
                                                 }
                                             }
                                         }
@@ -507,8 +450,6 @@ namespace ExcelAutomationService
                         {
                             Service1.PathLog("no new joiners file created");
                         }
-                        //Service1.Log("New_joinee_Master Excel file created successfully!");
-                        //File.Delete(filePath);
                     }
                 }
             }

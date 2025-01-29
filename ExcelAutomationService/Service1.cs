@@ -65,7 +65,6 @@ namespace ExcelAutomationService
                         }
                     }
                 }
-
                  // All emails sent successfully
             }
             catch (Exception ex)
@@ -119,6 +118,7 @@ namespace ExcelAutomationService
             }
             catch (Exception e)
             {
+                Console.WriteLine(e);
                 PathLog(columnname+" column was not found in"+worksheetname+" of "+filepath+" file.");
                 throw;
             }
@@ -182,7 +182,7 @@ namespace ExcelAutomationService
             if (pan.Length == 0)
             {
                 PathLog( hrid + " PAN is empty in " + sheetname + " sheet.");
-                return "PANNOTAVBLE";
+                return "PANNOTAVBL";
             }
             else
             {
@@ -210,6 +210,67 @@ namespace ExcelAutomationService
                 PathLog(hrid+" IFSC "+ ifsc +" is not valid in " + sheetname + " sheet.");
                 return "";
             }
+        }
+        public static string ValidateGender(string Gender)
+        {
+            Gender=ShrinkString(Gender);
+            switch (Gender)
+            {
+                case "male":
+                    Gender = "M";
+                    break;
+                case "female":
+                    Gender = "F";
+                    break;
+                case "transgender":
+                    Gender = "T";
+                    break;
+                case "m":
+                    Gender = "M";
+                    break;
+                case "f":
+                    Gender = "F";
+                    break;
+                default:
+                    Gender = "";
+                    break;
+            }
+            return Gender;
+        }
+        public static string ValidateMaritalStatus(string MaritalStatus)
+        {
+            MaritalStatus=MaritalStatus.ToUpper();
+            switch (MaritalStatus)
+            {
+                case "BACHELOR":
+                    MaritalStatus = "B";
+                    break;
+                case "B":
+                    MaritalStatus = "B";
+                    break;
+                case "BACHLOR":
+                    MaritalStatus = "B";
+                    break;
+                case "MARRIED":
+                    MaritalStatus = "M";
+                    break;
+                case "M":
+                    MaritalStatus = "M";
+                    break;
+                case "WIDOW":
+                    MaritalStatus = "W";
+                    break;
+                case "W":
+                    MaritalStatus = "W";
+                    break;
+                case "WIDOWED":
+                    MaritalStatus = "W";
+                    break;
+                default:
+                    MaritalStatus = "B";
+                    break;
+            }
+            return MaritalStatus;
         }
         public static string ShrinkString(string input)
         {
@@ -324,9 +385,10 @@ namespace ExcelAutomationService
                 await Task.Run(() => Leaver_Master.LeaverMaster(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Joiner_Leaver_Master.JoinerLeaverMaster(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Variable.Variable_Pay_Inputs_Data(ascendcodes, filePath, destinationFolder));
-                if (filePath.ToLower().Contains("synchronoss")) { 
+                if (filePath.ToLower().Contains("synchronoss")){ 
                 await Task.Run(() => Synchronoss_new_CTC.CTC_Master(ascendcodes, filePath, destinationFolder));
                 }
+                //await Task.Run(() => CTC_new_joiner.CTC_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
                
@@ -390,7 +452,7 @@ namespace ExcelAutomationService
             }
             catch (Exception ex)
             {
-                //Log(ex.Message);
+                Console.WriteLine(ex.Message);
                 // Fail silently if logging fails to avoid crashing the service
             }
         }
@@ -405,7 +467,7 @@ namespace ExcelAutomationService
             }
             catch (Exception ex)
             {
-                //Log(ex.Message);
+                Console.WriteLine(ex.Message);
                 // Fail silently if logging fails to avoid crashing the service
             }
         }

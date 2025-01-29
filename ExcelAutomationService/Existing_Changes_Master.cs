@@ -204,7 +204,6 @@ namespace ExcelAutomationService
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-
                                     outputWorksheet.Cells[row7, 4].Value = MiddleName;
                                 }
                                 
@@ -245,37 +244,8 @@ namespace ExcelAutomationService
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-                                    switch (MaritalStatus)
-                                    {
-                                        case "BACHELOR":
-                                            MaritalStatus = "B";
-                                            break;
-                                        case "B":
-                                            MaritalStatus = "B";
-                                            break;
-                                        case "BACHLOR":
-                                            MaritalStatus = "B";
-                                            break;
-                                        case "MARRIED":
-                                            MaritalStatus = "M";
-                                            break;
-                                        case "M":
-                                            MaritalStatus = "M";
-                                            break;
-                                        case "WIDOW":
-                                            MaritalStatus = "W";
-                                            break;
-                                        case "W":
-                                            MaritalStatus = "W";
-                                            break;
-                                        case "WIDOWED":
-                                            MaritalStatus = "W";
-                                            break;
-                                        default:
-                                            MaritalStatus = "B";
-                                            break;
-                                    }
-                                    outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
+                                   MaritalStatus=Service1.ValidateMaritalStatus(MaritalStatus);
+                                   outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
                                 }
                                 var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
 				                cell = inputWorkSheet.Cells[row, uan];
@@ -304,18 +274,31 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 69].Value = email;
                                 }
                                 var date = inputWorkSheet.Cells[row, dob].GetValue<string>();
+                                cell = inputWorkSheet.Cells[row, dob];
+                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
+                                // Get the background color of the cell
+                                bgColor = cell.Style.Fill.BackgroundColor;
                                 date = date.Replace(" ", "");
-                                if ((date.Length == 10) && (date[4] == '-'))
-                                {
-                                    //outputWorksheet.Cells[row7, 40].Value = date;
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
+                                    if ((date.Length == 10) && (date[4] == '-'))
+                                    {
+                                    outputWorksheet.Cells[row7, 40].Value = date;
+                                    }
                                 }
                                 date = inputWorkSheet.Cells[row, payrollstartdate].GetValue<string>();
                                 date = date.Replace(" ", "");
-                                if ((date.Length == 10) && (date[4] == '-'))
-                                {
-                                    //outputWorksheet.Cells[row7, 35].Value = date;
-                                    //outputWorksheet.Cells[row7, 63].Value = date;
-                                    //outputWorksheet.Cells[row7, 103].Value = date;
+                                cell = inputWorkSheet.Cells[row, payrollstartdate];
+                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
+                                // Get the background color of the cell
+                                bgColor = cell.Style.Fill.BackgroundColor;
+                                date = date.Replace(" ", "");
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
+                                    if ((date.Length == 10) && (date[4] == '-'))
+                                    {
+                                        outputWorksheet.Cells[row7, 35].Value = date;
+                                        outputWorksheet.Cells[row7, 63].Value = date;
+                                        outputWorksheet.Cells[row7, 103].Value = date;
+                                    }
                                 }
                                 var pan = inputWorkSheet.Cells[row, pancard].GetValue<string>();
                                 cell = inputWorkSheet.Cells[row, pancard];
@@ -326,10 +309,6 @@ namespace ExcelAutomationService
                                     if ((pan.Length == 10) && (pan[3] == 'P'))
                                     {
                                         outputWorksheet.Cells[row7, 60].Value = pan;
-                                    }
-                                    if (pan.Length == 0)
-                                    {
-                                        outputWorksheet.Cells[row7, 60].Value = "PANNOTAVBLE";
                                     }
                                 }
                                 var adhaar = (inputWorkSheet.Cells[row, Aadhar].GetValue<string>()).Replace(" ", "");
@@ -457,7 +436,7 @@ namespace ExcelAutomationService
                                         outputWorksheets.Cells[outputWorksheets.Dimension.Address].AutoFitColumns();
                                         m++;
                                     }
-                                    if (sheetname.ToLower().Contains("pension") || sheetname.ToLower().Contains("uan"))
+                                    if (sheetname.ToLower().Contains("pension") || sheetname.ToLower().Contains("uan") || sheetname.ToLower().Contains("birth") || sheetname.ToLower().Contains("date of joining") || sheetname.ToLower().Contains("pf wef dt") || sheetname.ToLower().Contains("payroll start date") || sheetname.ToLower().Contains("group joining date"))
                                     {
                                         int OutputLastRow = outputWorksheets.Dimension.End.Row;
                                         outputWorksheets.Cells[2, 3].Value = "Before processing kindly confirm with client.";
