@@ -105,10 +105,16 @@ namespace ExcelAutomationService
                             }
                         }
                         outputWorksheet.Column(17).Style.Numberformat.Format = "0.00";
-                        string newFileName = Path.Combine(destinationFolder, "NEW_Joiners_CTC" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]NEW_Joiners_CTC" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " ")) { 
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
+                        }
                     }
                     Console.WriteLine("CTC Excel file created successfully!");
                 }
@@ -208,10 +214,17 @@ namespace ExcelAutomationService
                             }
                         }
                         outputWorksheet.Column(17).Style.Numberformat.Format = "0.00";
-                        string newFileName = Path.Combine(destinationFolder, "Existing_CTC_Changes" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Existing_CTC_Changes" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " "))
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
+                        }
                     }
                     Console.WriteLine("CTC Excel file created successfully!");
                 }
@@ -313,10 +326,18 @@ namespace ExcelAutomationService
                             }
                         }
                         outputWorksheet.Column(17).Style.Numberformat.Format = "0.00";
-                        string newFileName = Path.Combine(destinationFolder, "Leavers_CTC_Changes" + Path.GetFileName(filePath));
+                        outputWorksheet.Cells[1, 18].Value = "Kindly check with existing ctc structure.";
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Leavers_CTC_Changes" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
-                        outputPackage.SaveAs(newFileInfo);
+                        string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
+                        Service1.ShrinkString(cellValue);
+                        if ((cellValue != null) && (cellValue != " ") && (cellValue != " "))
+                        {
+                            outputPackage.SaveAs(newFileInfo);
+                            outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
+                        }
                     }
                     Console.WriteLine("CTC Excel file created successfully!");
                 }

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Data.Common;
+using System.Windows.Media.Imaging;
 
 namespace ExcelAutomationService
 {
@@ -23,7 +24,8 @@ namespace ExcelAutomationService
                     int row, row2;
                     int IP = Service1.getSheetNumber(filePath, "Joiner and Changes ");
                     var inputWorkSheet = package.Workbook.Worksheets[IP];
-                    var BenefeciariesDataSheet = package.Workbook.Worksheets["Beneficiaries Data"];
+                    IP = Service1.getSheetNumber(filePath, "Beneficiaries Data");
+                    var BenefeciariesDataSheet = package.Workbook.Worksheets[IP];
                     //var OrgAssignmentsDataSheet = package.Workbook.Worksheets["Org Assignments"];
                     //int OrgAssignmentsDataSheetLastRow = OrgAssignmentsDataSheet.Dimension.End.Row;
                     int employeenumber = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "HR ID");
@@ -39,8 +41,6 @@ namespace ExcelAutomationService
                     int town = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "town");
                     int pincode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "ZIP / Postal Code");
                     int marriedornot = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "marital status");
-                    //int ifsccode = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "sort code");
-                    //int acno = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "account number");
                     int dob = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "date of birth");
                     int payrollstartdate = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Payroll Start Date");
                     int jobtitle = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "job title");
@@ -52,7 +52,9 @@ namespace ExcelAutomationService
                     int uan = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Universal Account Number (UAN)");
                     int ptlocation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), " PT Location");
                     int lastRow = inputWorkSheet.Dimension.End.Row;
+                    int FatherorHusbandName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name");
                     int lastColumn = inputWorkSheet.Dimension.End.Column;
+                    int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                     int BenefeciarieslastRow = BenefeciariesDataSheet.Dimension.End.Row;
                     using (var outputPackage = new ExcelPackage())
                     {
@@ -208,75 +210,57 @@ namespace ExcelAutomationService
                                 }
                                 
                                 cell = inputWorkSheet.Cells[row, ln];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
                                     outputWorksheet.Cells[row7, 5].Value = LastName;
                                     outputWorksheet.Cells[row7, 8].Value = Firstname + " " + LastName;
                                 }
-                                var Gender = inputWorkSheet.Cells[row, gender].GetValue<string>();
-                                Gender = Gender.ToLower();
-                                Gender = Gender.Replace(" ", "");
-                                switch (Gender)
-                                {
-                                    case "male":
-                                        Gender = "M";
-                                        break;
-                                    case "female":
-                                        Gender = "F";
-                                        break;
-                                    case "transgender":
-                                        Gender = "T";
-                                        break;
-                                }
                                 var columnRange = outputWorksheet.Cells[1, 55, lastRow, 55];
                                 columnRange.Style.Fill.PatternType = ExcelFillStyle.Solid;
                                 columnRange.Style.Fill.BackgroundColor.SetColor(Color.Red);
-                                //outputWorksheet.Cells[row7, 2].Value = Gender;
-                                var MaritalStatus = inputWorkSheet.Cells[row, marriedornot].GetValue<string>();
+
+
+                                var MaritalStatus = inputWorkSheet.Cells[row, marriedornot].Text;
                                 MaritalStatus = MaritalStatus.ToUpper();
                                 MaritalStatus = MaritalStatus.Replace(" ", "");
                                 cell = inputWorkSheet.Cells[row, marriedornot];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
                                    MaritalStatus=Service1.ValidateMaritalStatus(MaritalStatus);
                                    outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
                                 }
-                                var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
+
+                                var UAN = inputWorkSheet.Cells[row, uan].Text;
 				                cell = inputWorkSheet.Cells[row, uan];
 				                bgColor = cell.Style.Fill.BackgroundColor;
 				                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
 				                {
    				                    outputWorksheet.Cells[row7, 100].Value = UAN;
 				                }
-                                var Address = inputWorkSheet.Cells[row, add1].GetValue<string>();
-                                // outputWorksheet.Cells[row7, 14].Value = Address;
-                                Address = inputWorkSheet.Cells[row, add2].GetValue<string>();
-                                // outputWorksheet.Cells[row7, 15].Value = Address;
-                                Address = inputWorkSheet.Cells[row, add3].GetValue<string>();
-                                //outputWorksheet.Cells[row7, 16].Value = Address;
-                                Address = inputWorkSheet.Cells[row, town].GetValue<string>();
-                                //outputWorksheet.Cells[row7, 17].Value = Address;
-                                //Address = inputWorkSheet.Cells[row, pincode].GetValue<string>();
-                                // outputWorksheet.Cells[row7, 19].Value = Address;
-                                var email = inputWorkSheet.Cells[row, emailid].GetValue<string>();
+
+                                var Gender = inputWorkSheet.Cells[row, gender].Text;
+                                Gender = Gender.ToLower();
+                                Gender = Gender.Replace(" ", "");
+                                cell = inputWorkSheet.Cells[row, gender];
+                                bgColor = cell.Style.Fill.BackgroundColor;
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                                {
+                                    Gender = Service1.ValidateGender(Gender);
+                                    outputWorksheet.Cells[row7, 2].Value = Gender;
+                                }
+
+                                var email = inputWorkSheet.Cells[row, emailid].Text;
                                 cell = inputWorkSheet.Cells[row, emailid];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
                                     outputWorksheet.Cells[row7, 69].Value = email;
                                 }
-                                var date = inputWorkSheet.Cells[row, dob].GetValue<string>();
+
+                                var date = inputWorkSheet.Cells[row, dob].Text;
                                 cell = inputWorkSheet.Cells[row, dob];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 date = date.Replace(" ", "");
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
@@ -285,13 +269,11 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 40].Value = date;
                                     }
                                 }
-                                date = inputWorkSheet.Cells[row, payrollstartdate].GetValue<string>();
+
+                                date = inputWorkSheet.Cells[row, payrollstartdate].Text;
                                 date = date.Replace(" ", "");
                                 cell = inputWorkSheet.Cells[row, payrollstartdate];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
-                                date = date.Replace(" ", "");
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
                                     if ((date.Length == 10) && (date[4] == '-'))
                                     {
@@ -300,51 +282,123 @@ namespace ExcelAutomationService
                                         outputWorksheet.Cells[row7, 103].Value = date;
                                     }
                                 }
-                                var pan = inputWorkSheet.Cells[row, pancard].GetValue<string>();
+
+                                var pan = inputWorkSheet.Cells[row, pancard].Text;
                                 cell = inputWorkSheet.Cells[row, pancard];
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-                                    pan = pan.Replace(" ", "");
-                                    if ((pan.Length == 10) && (pan[3] == 'P'))
-                                    {
-                                        outputWorksheet.Cells[row7, 60].Value = pan;
-                                    }
+                                        outputWorksheet.Cells[row7, 60].Value = Service1.ValidatePAN(inputWorkSheet.ToString(), HRID.ToString(), pan.ToString());
                                 }
-                                var adhaar = (inputWorkSheet.Cells[row, Aadhar].GetValue<string>()).Replace(" ", "");
+
+                                var adhaar = inputWorkSheet.Cells[row, Aadhar].Text;
                                 cell = inputWorkSheet.Cells[row, Aadhar];
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-                                    if ((adhaar.Length == 12) && (adhaar.All(char.IsDigit)))
-                                    {
-                                        outputWorksheet.Cells[row7, 94].Value = adhaar;
-                                    }
+                                    outputWorksheet.Cells[row7, 94].Value = Service1.ValidateAadhar(inputWorkSheet.ToString(), HRID.ToString(), adhaar.ToString());
                                 }
-                               // var UAN = inputWorkSheet.Cells[row, uan].GetValue<string>();
+
                                 cell = inputWorkSheet.Cells[row, jobtitle];
-                                var JobTitle = inputWorkSheet.Cells[row, jobtitle].GetValue<string>();
-                                //var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                // Get the background color of the cell
+                                var JobTitle = inputWorkSheet.Cells[row, jobtitle].Text;
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
                                     outputWorksheet.Cells[row7, 53].Value = JobTitle;
                                 }
-                                var PTLocation = inputWorkSheet.Cells[row, ptlocation].GetValue<string>();
+
+                                #region Fatherorhusband & Emprelation
+                                cell = inputWorkSheet.Cells[row, FatherorHusbandName];
+                                var forh = inputWorkSheet.Cells[row, jobtitle].Text;
+                                bgColor = cell.Style.Fill.BackgroundColor;
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                                {
+                                    outputWorksheet.Cells[row7, 6].Value = forh;
+                                }
+
+                                cell = inputWorkSheet.Cells[row, erelation];
+                                var Emprelation = inputWorkSheet.Cells[row, erelation].Text;
+                                Emprelation = Service1.ShrinkString(Emprelation);
+                                bgColor = cell.Style.Fill.BackgroundColor;
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                                {
+                                    switch (Emprelation)
+                                    {
+                                        case "father":
+                                            Emprelation = "F";
+                                            break;
+                                        case "husband":
+                                            Emprelation = "H";
+                                            break;
+                                        case "f":
+                                            Emprelation = "F";
+                                            break;
+                                        case "h":
+                                            Emprelation = "H";
+                                            break;
+                                    }
+                                    outputWorksheet.Cells[row7, 7].Value = Emprelation;
+                                }
+                                #endregion
+
+                                #region PTLocationChange
+                                var PTLocation = inputWorkSheet.Cells[row, ptlocation].Text;
                                 cell = inputWorkSheet.Cells[row, ptlocation];
                                 // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
                                     outputWorksheet.Cells[row7, 56].Value = PTLocation;
+                                    using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
+                                    {
+                                        int t = Service1.getSheetNumber(ascendcodes, "Locations");
+                                        var LocationSheet = package2.Workbook.Worksheets[t];
+                                        int LocationsLastRow = LocationSheet.Dimension.End.Row;
+                                        int description = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "description");
+                                        int code = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "code");
+                                       
+                                        for (int row3 = 1; row3 <= LocationsLastRow; row3++)
+                                        {
+                                            if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower()))
+                                            {
+                                                outputWorksheet.Cells[row7, 56].Value = LocationSheet.Cells[row3, code].Text;
+                                            }
+                                        }
+                                    }
                                 }
+                                #endregion
+
+                                #region grade for others
+                                var grd = inputWorkSheet.Cells[row, EmployeeGrade].Text;
+                                cell = inputWorkSheet.Cells[row, EmployeeGrade];
+                                // Get the background color of the cell
+                                bgColor = cell.Style.Fill.BackgroundColor;
+                                if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                                {
+                                    outputWorksheet.Cells[row7, 56].Value = PTLocation;
+                                    using (var package2 = new ExcelPackage(new FileInfo(ascendcodes)))
+                                    {
+                                        int t = Service1.getSheetNumber(ascendcodes, "Grades");
+                                        var LocationSheet = package2.Workbook.Worksheets[t];
+                                        int LocationsLastRow = LocationSheet.Dimension.End.Row;
+                                        int description = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "description");
+                                        int code = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "code");
+
+                                        for (int row3 = 1; row3 <= LocationsLastRow; row3++)
+                                        {
+                                            if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))
+                                            {
+                                               // outputWorksheet.Cells[row7, 52].Value = LocationSheet.Cells[row3, code].Text;
+                                            }
+                                        }
+                                    }
+                                }
+                                #endregion
+
+                                #region pay scale for musarubra and McAfee
                                 if (filePath.ToLower().Contains("mcafee") || filePath.ToLower().Contains("musarubra"))
                                 {
-                                    int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
-                                    var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
+                                    var grade = inputWorkSheet.Cells[row, EmployeeGrade].Text;
                                     string gr = grade.ToLower();
                                     cell = inputWorkSheet.Cells[row, EmployeeGrade];
                                     // Get the background color of the cell
@@ -352,11 +406,13 @@ namespace ExcelAutomationService
                                     if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) { 
                                         if (gr.Contains("grade"))
                                         {
-                                        grade = grade.Substring(grade.Length - 2);
+                                            grade = grade.Substring(grade.Length - 2);
                                         }
                                     outputWorksheet.Cells[row7, 83].Value = grade;
                                     }
                                 }
+                                #endregion
+
                                 var Nationality = inputWorkSheet.Cells[row, nationality].GetValue<string>();
                                 cell = inputWorkSheet.Cells[row, nationality];
                                 // Get the background color of the cell
@@ -365,37 +421,15 @@ namespace ExcelAutomationService
                                 {
                                     // outputWorksheet.Cells[row7, 105].Value = Nationality;
                                 }
-                                //outputWorksheet.Cells[row7, 105].Value = Nationality;
+
                                 var Pension = inputWorkSheet.Cells[row, pension].GetValue<string>();
                                 cell = inputWorkSheet.Cells[row, pension];
                                 // Get the background color of the cell
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-                                    Pension = Pension.ToLower();
-                                    Pension = Pension.Replace(" ", "");
-                                    switch (Pension)
-                                    {
-                                        case "yes":
-                                            Pension = "1";
-                                            break;
-                                        case "no":
-                                            Pension = "0";
-                                            break;
-                                        case "0":
-                                            Pension = "0";
-                                            break;
-                                        case "1":
-                                            Pension = "1";
-                                            break;
-                                        default:
-                                            Pension = "0";
-                                            break;
-                                    }
+                                    Pension = Service1.ValidatePension(Pension);
                                     outputWorksheet.Cells[row7, 101].Value = Pension;
-                                    //var cell2 = outputWorksheet.Cells[row7, 101];
-                                    //cell2.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
-                                    //cell2.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
                                 }
                                 row7++;
                             }
@@ -436,7 +470,7 @@ namespace ExcelAutomationService
                                         outputWorksheets.Cells[outputWorksheets.Dimension.Address].AutoFitColumns();
                                         m++;
                                     }
-                                    if (sheetname.ToLower().Contains("pension") || sheetname.ToLower().Contains("uan") || sheetname.ToLower().Contains("birth") || sheetname.ToLower().Contains("date of joining") || sheetname.ToLower().Contains("pf wef dt") || sheetname.ToLower().Contains("payroll start date") || sheetname.ToLower().Contains("group joining date"))
+                                    if (sheetname.ToLower().Contains("pension") || sheetname.ToLower().Contains("uan") || sheetname.ToLower().Contains("birth") || sheetname.ToLower().Contains("date of joining") || sheetname.ToLower().Contains("pf wef dt") || sheetname.ToLower().Contains("payroll start date") || sheetname.ToLower().Contains("group joining date") || sheetname.ToLower().Contains("gender"))
                                     {
                                         int OutputLastRow = outputWorksheets.Dimension.End.Row;
                                         outputWorksheets.Cells[2, 3].Value = "Before processing kindly confirm with client.";
@@ -444,6 +478,7 @@ namespace ExcelAutomationService
                                         columnRange.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
                                         columnRange.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.Red);
                                     }
+                                    
                                     if (sheetname.ToLower().Contains("pay scale"))
                                     {
                                         int OutputLastRow = outputWorksheets.Dimension.End.Row;
@@ -466,7 +501,34 @@ namespace ExcelAutomationService
                                 outputPackage.Workbook.Worksheets.Delete(i);
                             }
                         }
-                        string newFileName = Path.Combine(destinationFolder, "Existing_Changes_Master" + Path.GetFileName(filePath));
+                        worksheetCount = outputPackage.Workbook.Worksheets.Count;
+                        for (int i = worksheetCount - 1; i >= 1; i--)
+                        {
+                            var testworksheet = outputPackage.Workbook.Worksheets[i];
+                            string sheetname = testworksheet.Cells[1, 2].GetCellValue<string>();
+                            if (sheetname.ToLower().Contains("joining"))
+                            {
+                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
+                                string subject = "Alert: DOJ change request";
+                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                Service1.SendEmails(recipients, subject, body);
+                            }
+                            if (sheetname.ToLower().Contains("birth"))
+                            {
+                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
+                                string subject = "Alert: DOB change request";
+                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                Service1.SendEmails(recipients, subject, body);
+                            }
+                            if (sheetname.ToLower().Contains("gender"))
+                            {
+                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
+                                string subject = "Alert: Gender change request";
+                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                Service1.SendEmails(recipients, subject, body);
+                            }
+                        }
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Existing_Changes_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         outputPackage.Workbook.Worksheets.Delete(0);
@@ -474,6 +536,7 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
                             //Service1.Log("Existing_Changes_Master Excel file created successfully!");
                         }
                         else

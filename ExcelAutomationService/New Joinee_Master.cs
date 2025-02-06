@@ -23,7 +23,8 @@ namespace ExcelAutomationService
                     int row, row2;
                     int IP = Service1.getSheetNumber(filePath, "Joiner and Changes ");
                     var inputWorkSheet = package.Workbook.Worksheets[IP];
-                    var BenefeciariesDataSheet = package.Workbook.Worksheets["Beneficiaries Data"];
+                    IP = Service1.getSheetNumber(filePath, "Beneficiaries Data");
+                    var BenefeciariesDataSheet = package.Workbook.Worksheets[IP];
                     //var OrgAssignmentsDataSheet = package.Workbook.Worksheets["Org Assignments"];
                     //int OrgAssignmentsDataSheetLastRow = OrgAssignmentsDataSheet.Dimension.End.Row;
                     int employeenumber = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "HR ID");
@@ -60,6 +61,7 @@ namespace ExcelAutomationService
                     int FatherorHusbandName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name");
                     int relation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Relation");
                     int lastRow = inputWorkSheet.Dimension.End.Row;
+                    int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                     int BenefeciarieslastRow = BenefeciariesDataSheet.Dimension.End.Row;
                     using (var outputPackage = new ExcelPackage())
                     {
@@ -226,7 +228,7 @@ namespace ExcelAutomationService
                                         outputWorksheet.Cells[row7, 7].Value = Emprelation;
                                         break;
                                     case "":
-                                        Service1.PathLog(HRID+":"+ "EmpRelation is not present in "+inputWorkSheet.ToString()+" sheet.");
+                                        Service1.PathLog(HRID + ":" + "EmpRelation is not present in " + inputWorkSheet.ToString() + " sheet.");
                                         break;
                                     case "husband":
                                         Emprelation = "H";
@@ -243,7 +245,7 @@ namespace ExcelAutomationService
                                 }
                                 var MaritalStatus = inputWorkSheet.Cells[row, marriedornot].GetValue<string>();
                                 //Method to validate marital status
-                                MaritalStatus=Service1.ValidateMaritalStatus(MaritalStatus);
+                                MaritalStatus = Service1.ValidateMaritalStatus(MaritalStatus);
                                 outputWorksheet.Cells[row7, 9].Value = MaritalStatus;
                                 //var Address = inputWorkSheet.Cells[row, add1].GetValue<string>();
                                 //outputWorksheet.Cells[row7, 14].Value = Address;
@@ -257,6 +259,8 @@ namespace ExcelAutomationService
                                 //outputWorksheet.Cells[row7, 19].Value = Address;
                                 var email = inputWorkSheet.Cells[row, emailid].GetValue<string>();
                                 outputWorksheet.Cells[row7, 69].Value = email;
+                                var empgr = inputWorkSheet.Cells[row, EmployeeGrade].Text;
+                                outputWorksheet.Cells[row7, 52].Value = empgr;
                                 outputWorksheet.Cells[row7, 74].Value = HRID;
                                 outputWorksheet.Cells[row7, 31].Value = "00000";
                                 var date = inputWorkSheet.Cells[row, 9].GetValue<string>();
@@ -275,18 +279,18 @@ namespace ExcelAutomationService
                                 }
                                 var pan = inputWorkSheet.Cells[row, pancard].Text;
 
-                                pan = Service1.ValidatePAN(inputWorkSheet.ToString(),HRID,pan);
+                                pan = Service1.ValidatePAN(inputWorkSheet.ToString(), HRID, pan);
                                 outputWorksheet.Cells[row7, 60].Value = pan;
 
                                 var adhaar = (inputWorkSheet.Cells[row, Aadhar].Text).Replace(" ", "");
 
-                                adhaar = Service1.ValidateAadhar(inputWorkSheet.ToString(),HRID,adhaar);
+                                adhaar = Service1.ValidateAadhar(inputWorkSheet.ToString(), HRID, adhaar);
                                 outputWorksheet.Cells[row7, 94].Value = adhaar;
                                 var UAN = inputWorkSheet.Cells[row, uan].Text;
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
                                 if (UAN == "" || UAN == null)
                                 {
-                                    Service1.PathLog(HRID+" :UAN is not present in "+ inputWorkSheet.ToString()+" sheet.");
+                                    Service1.PathLog(HRID + " :UAN is not present in " + inputWorkSheet.ToString() + " sheet.");
                                 }
                                 var JobTitle = inputWorkSheet.Cells[row, 13].Text;
                                 outputWorksheet.Cells[row7, 53].Value = JobTitle;
@@ -295,9 +299,8 @@ namespace ExcelAutomationService
                                 string r = Service1.ShrinkString(filePath);
                                 if (r.Contains("mcafee") || r.Contains("musarubra"))
                                 {
-                                    int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                                     var grade = inputWorkSheet.Cells[row, EmployeeGrade].GetValue<string>();
-                                    string gr=grade.ToLower();
+                                    string gr = grade.ToLower();
                                     if (gr.Contains("grade"))
                                     {
                                         grade = grade.Substring(grade.Length - 2);
@@ -406,6 +409,9 @@ namespace ExcelAutomationService
                                             var LocationSheet = package2.Workbook.Worksheets[t];
                                             t = Service1.getSheetNumber(ascendcodes, "Banks Detailed");
                                             var Ascendsheet = package2.Workbook.Worksheets[t];
+                                            t = Service1.getSheetNumber(ascendcodes, "Grades");
+                                            var GradeSheet = package2.Workbook.Worksheets[t];
+                                            int GradeLastRow = GradeSheet.Dimension.End.Row;
                                             int AscendLastRow = Ascendsheet.Dimension.End.Row;
                                             int LocationsLastRow = LocationSheet.Dimension.End.Row;
                                             int description = Service1.getColumnNumber(ascendcodes, LocationSheet.ToString(), "description");
@@ -424,10 +430,20 @@ namespace ExcelAutomationService
                                                     outputWorksheet.Cells[row7, 28].Value = Ascendsheet.Cells[row5, 1].GetValue<string>();
                                                 }
                                             }
-                                            for (int row3=1;row3<=LocationsLastRow;row3++) 
+                                            for (int row3 = 1; row3 <= LocationsLastRow; row3++)
                                             {
-                                                if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower())) {
+                                                if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower()))
+                                                {
                                                     outputWorksheet.Cells[row7, 56].Value = LocationSheet.Cells[row3, code].Text;
+                                                }
+                                            }
+                                            description = Service1.getColumnNumber(ascendcodes, GradeSheet.ToString(), "description");
+                                            code = Service1.getColumnNumber(ascendcodes, GradeSheet.ToString(), "code");
+                                            for (int row3 = 1; row3 <= GradeLastRow; row3++)
+                                            {
+                                                if (GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))
+                                                {
+                                                    outputWorksheet.Cells[row7, 52].Value = GradeSheet.Cells[row3, code].Text;
                                                 }
                                             }
                                         }
@@ -436,7 +452,7 @@ namespace ExcelAutomationService
                                 row7++;
                             }
                         }
-                        string newFileName = Path.Combine(destinationFolder, "New Joinee_Master" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder, Service1.FileCount + "]New Joinee_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
@@ -445,6 +461,7 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
                         }
                         else
                         {

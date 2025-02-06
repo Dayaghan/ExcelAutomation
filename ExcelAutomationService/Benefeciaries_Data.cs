@@ -114,7 +114,7 @@ namespace ExcelAutomationService
                             }
                             outputWorksheet.DeleteColumn(6);
                         }
-                        string newFileName = Path.Combine(destinationFolder, "Benificieries Data_" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder, Service1.FileCount + "]Benificieries Data_" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
@@ -123,13 +123,13 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
                         }
                         else {
                             Service1.PathLog("no existing benefeciaries file created");
                         }
                     }
                 }
-                //Service1.Log("Beneficiaries Data Excel file created successfully!");
             }
             catch (Exception ex)
             {

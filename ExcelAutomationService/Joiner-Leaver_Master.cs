@@ -48,7 +48,7 @@ namespace ExcelAutomationService
                             outputWorksheet.Cells[row, 4].Value = "3";
                             //outputWorksheet.Cells[row, 5].Value = DateOfLeaving;
                         }
-                        string newFileName = Path.Combine(destinationFolder, "Joiner Leaver_Master" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Joiner Leaver_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
@@ -57,6 +57,7 @@ namespace ExcelAutomationService
                         { 
                         outputPackage.SaveAs(newFileInfo);
                         outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
                         }
                         //Service1.Log("Joiner_Leaver_Master Excel file created successfully!");
                     }

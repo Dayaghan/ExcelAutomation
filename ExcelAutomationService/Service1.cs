@@ -21,7 +21,8 @@ namespace ExcelAutomationService
     {
         public static string errors = @"E:/PAYROLL_SERVER/Automation/Errors";
         public static string archived = @"E:/PAYROLL_SERVER/Automation/Archived";
-        public static int ErrorCount=0;
+        public static int ErrorCount = 0;
+        public static int FileCount = 1;
         Timer timer = new Timer();
         string sourceFolder = @"E:\PAYROLL_SERVER\Automation\Input";     // Folder to watch for Excel files
         public static string destination = @"E:/PAYROLL_SERVER/Automation/output";
@@ -110,7 +111,7 @@ namespace ExcelAutomationService
                     col = -1;
                     if (col == -1)
                     {
-                        Log(columnname + " column was not found in " + worksheetname + " of " + filepath + " file.");
+                        PathLog(columnname + " column was not found in " + worksheetname + " of " + filepath + " file.");
                         ErrorCount++;
                     }
                     return col;
@@ -237,6 +238,29 @@ namespace ExcelAutomationService
             }
             return Gender;
         }
+        public static string ValidatePension(string Pension)
+        {
+            Pension = ShrinkString(Pension);
+            switch (Pension)
+            {
+                case "yes":
+                    Pension = "1";
+                    break;
+                case "no":
+                    Pension = "0";
+                    break;
+                case "0":
+                    Pension = "0";
+                    break;
+                case "1":
+                    Pension = "1";
+                    break;
+                default:
+                    Pension = "0";
+                    break;
+            }
+            return Pension;
+        }
         public static string ValidateMaritalStatus(string MaritalStatus)
         {
             MaritalStatus=MaritalStatus.ToUpper();
@@ -308,7 +332,6 @@ namespace ExcelAutomationService
             try
             {
                 DateTime now = DateTime.Now;
-
                 // Format the month and year as "Month_Year"
                 string formattedDate = $"{now:dd_MMMM_yyyy}";
                 string foldername = Path.GetFileName(filePath);
@@ -381,18 +404,20 @@ namespace ExcelAutomationService
                     }
                 }
                 // Call the relevant methods to process the file
+                await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
+                if (filePath.ToLower().Contains("synchronoss"))
+                {
+                    await Task.Run(() => Synchronoss_new_CTC.CTC_Master(ascendcodes, filePath, destinationFolder));
+                }
+                await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Benefeciaries_Data.Beneficiaries_Data(ascendcodes, filePath, destinationFolder));
+                await Task.Run(() => Variable.Variable_Pay_Inputs_Data(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Leaver_Master.LeaverMaster(ascendcodes, filePath, destinationFolder));
                 await Task.Run(() => Joiner_Leaver_Master.JoinerLeaverMaster(ascendcodes, filePath, destinationFolder));
-                await Task.Run(() => Variable.Variable_Pay_Inputs_Data(ascendcodes, filePath, destinationFolder));
-                if (filePath.ToLower().Contains("synchronoss")){ 
-                await Task.Run(() => Synchronoss_new_CTC.CTC_Master(ascendcodes, filePath, destinationFolder));
-                }
                 //await Task.Run(() => CTC_new_joiner.CTC_Master(ascendcodes, filePath, destinationFolder));
-                await Task.Run(() => Existing_Changes_Master.Existing_changes_Master(ascendcodes, filePath, destinationFolder));
-                await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
-               
-               //action after processing
+
+                //action after processing
+                FileCount = 1;//Setting Back File Count to 1 for new file!!!
                 if (!Directory.Exists(archived))
                 {
                     Directory.CreateDirectory(archived);
@@ -461,7 +486,7 @@ namespace ExcelAutomationService
             try
             {
                 DateTime today = DateTime.Today;
-                string _logFilePath = destination +"/"+ today.ToString("dd/MMMM/yyyy") + "_PayrollAutomationService.log";
+                string _logFilePath = destination +"/"+"_PayrollAutomationService_" + today.ToString("dd/MMMM/yyyy") + ".log";
                 Directory.CreateDirectory(Path.GetDirectoryName(_logFilePath));
                 File.AppendAllText(_logFilePath, $"{DateTime.Now}: {message}{Environment.NewLine}");
             }

@@ -101,7 +101,7 @@ namespace ExcelAutomationService
                             }
                         }
                         // Save output file
-                        string newFileName = Path.Combine(destinationFolder, "Variable_" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Variable_" + Path.GetFileName(filePath));
                         // outputPackage.SaveAs(new FileInfo(outputFilePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
@@ -111,6 +111,7 @@ namespace ExcelAutomationService
                         {
                             outputPackage.SaveAs(newFileInfo);
                             outputPackage.SaveAsAsync(new FileInfo(destinationFolder));
+                            Service1.FileCount++;
                         }
                         else
                         {
