@@ -28,10 +28,17 @@ namespace ExcelAutomationService
                     // Data structures to store unique pay elements and employee data
                     var employeeData = new Dictionary<string, Dictionary<string, double>>();
                     var payElementCodes = new HashSet<string>();
-
+                    HashSet<string> NewHrid = new HashSet<string>();
                     // Read data from input sheet
                     for (int row = 2; row <= lastRow; row++)
                     {
+                        var cell = inputWorkSheet.Cells[row, hridCol];
+                        // Get the background color of the cell
+                        var bgColor = cell.Style.Fill.BackgroundColor;
+                        if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")) 
+                        {
+                            NewHrid.Add(cell.Text);
+                        }
                         string hrid = inputWorkSheet.Cells[row, hridCol].GetValue<string>();
                         string payElement = inputWorkSheet.Cells[row, payElementCol].GetValue<string>();
                         string amountText = inputWorkSheet.Cells[row, amountCol].GetValue<string>();
@@ -74,6 +81,14 @@ namespace ExcelAutomationService
                                 string payElement = payElementList[i];
                                 double amount = kvp.Value.ContainsKey(payElement) ? kvp.Value[payElement] : 0;
                                 outputWorksheet.Cells[rowIndex, i + 2].Value = amount;
+                                if (amount >= 1500000.00 && NewHrid.Contains(hrid))
+                                {
+                                    Service1.PathLog(hrid +" : Kindly confirm the amount: "+amount+" in variable file for a new joiner.");
+                                    string[] recipients = { "dayaghan.limaye@paylineindia.com" };
+                                    string subject = "Alert: Amount in variable pay";
+                                    string body ="HRID:"+ hrid + " :\nThe amount: " + amount + " in variable sheet of client:"+ Path.GetFileName(filePath) +"\nis high for a new joiner.\nPlease take necessary actions.\n\nRegards,\nEmailService";
+                                    Service1.SendEmails(recipients, subject, body);
+                                }
                             }
 
                             rowIndex++;

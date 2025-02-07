@@ -309,7 +309,7 @@ namespace ExcelAutomationService
 
                                 #region Fatherorhusband & Emprelation
                                 cell = inputWorkSheet.Cells[row, FatherorHusbandName];
-                                var forh = inputWorkSheet.Cells[row, jobtitle].Text;
+                                var forh = inputWorkSheet.Cells[row, FatherorHusbandName].Text;
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
@@ -388,7 +388,7 @@ namespace ExcelAutomationService
                                         {
                                             if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))
                                             {
-                                               // outputWorksheet.Cells[row7, 52].Value = LocationSheet.Cells[row3, code].Text;
+                                                outputWorksheet.Cells[row7, 52].Value = LocationSheet.Cells[row3, code].Text;
                                             }
                                         }
                                     }
@@ -506,26 +506,29 @@ namespace ExcelAutomationService
                         {
                             var testworksheet = outputPackage.Workbook.Worksheets[i];
                             string sheetname = testworksheet.Cells[1, 2].GetCellValue<string>();
-                            if (sheetname.ToLower().Contains("joining"))
+                            if (sheetname.ToLower().Contains("date of joining"))
                             {
                                 string[] recipients = { "dayaghan.limaye@paylineindia.com" };
                                 string subject = "Alert: DOJ change request";
-                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
                                 Service1.SendEmails(recipients, subject, body);
+                                Service1.PathLog("Date Of Joining change is reuested");
                             }
                             if (sheetname.ToLower().Contains("birth"))
                             {
                                 string[] recipients = { "dayaghan.limaye@paylineindia.com" };
                                 string subject = "Alert: DOB change request";
-                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
                                 Service1.SendEmails(recipients, subject, body);
+                                Service1.PathLog("Date Of Birth change is reuested");
                             }
                             if (sheetname.ToLower().Contains("gender"))
                             {
                                 string[] recipients = { "dayaghan.limaye@paylineindia.com" };
                                 string subject = "Alert: Gender change request";
-                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlaese take necessary actions.\n\nRegards,\nEmailService";
+                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
                                 Service1.SendEmails(recipients, subject, body);
+                                Service1.PathLog("Gender change is reuested");
                             }
                         }
                         string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Existing_Changes_Master" + Path.GetFileName(filePath));

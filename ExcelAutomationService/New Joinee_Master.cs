@@ -441,7 +441,7 @@ namespace ExcelAutomationService
                                             code = Service1.getColumnNumber(ascendcodes, GradeSheet.ToString(), "code");
                                             for (int row3 = 1; row3 <= GradeLastRow; row3++)
                                             {
-                                                if (GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))
+                                                if ((GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))&& (inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower() != ""))
                                                 {
                                                     outputWorksheet.Cells[row7, 52].Value = GradeSheet.Cells[row3, code].Text;
                                                 }
