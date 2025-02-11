@@ -196,9 +196,9 @@ namespace ExcelAutomationService
                             {
                                 var HRID = inputWorkSheet.Cells[row, 2].GetValue<string>();
                                 outputWorksheet.Cells[row7, 1].Value = HRID;
-                                var Firstname = inputWorkSheet.Cells[row, fn].GetValue<string>();
-                                var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
-                                var LastName = inputWorkSheet.Cells[row, ln].GetValue<string>();
+                                var Firstname = inputWorkSheet.Cells[row, fn].Text;
+                                var MiddleName = inputWorkSheet.Cells[row, mn].Text;
+                                var LastName = inputWorkSheet.Cells[row, ln].Text;
                                 // var FatherOrHusband = inputWorkSheet.Cells[row, 7].GetValue<string>();
                                 //var Relation = inputWorkSheet.Cells[row, 7].GetValue<string>();
                                 outputWorksheet.Cells[row7, 3].Value = Firstname;
@@ -212,14 +212,18 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 5].Value = LastName;
                                 }
                                 outputWorksheet.Cells[row7, 8].Value = Firstname + " " + LastName;
+                                if (Service1.ShrinkString(Firstname) == Service1.ShrinkString(LastName))
+                                {
+                                    outputWorksheet.Cells[row7, 8].Value = Firstname;
+                                }
                                 var Gender = inputWorkSheet.Cells[row, gender].GetValue<string>();
                                 //Method to Validate Gender
                                 Gender = Service1.ValidateGender(Gender);
                                 outputWorksheet.Cells[row7, 2].Value = Gender;
 
-                                var fatherhusband = inputWorkSheet.Cells[row, FatherorHusbandName].GetValue<string>();
+                                var fatherhusband = inputWorkSheet.Cells[row, FatherorHusbandName].Text;
                                 outputWorksheet.Cells[row7, 6].Value = fatherhusband;
-                                var Emprelation = inputWorkSheet.Cells[row, relation].GetValue<string>();
+                                var Emprelation = inputWorkSheet.Cells[row, relation].Text;
                                 Emprelation = Service1.ShrinkString(Emprelation);
                                 switch (Emprelation)
                                 {
@@ -386,13 +390,13 @@ namespace ExcelAutomationService
                                     if (HRID.Equals(id))
                                     {
                                         Regex validCharsRegex = new Regex("[^a-zA-Z ]");//logic to remove special characters
-                                        outputWorksheet.Cells[row7, 95].Value = Service1.CapitalizeEachWord(validCharsRegex.Replace(BenefeciariesDataSheet.Cells[row2, primarynameasperbank].GetValue<string>(), ""));
+                                        outputWorksheet.Cells[row7, 95].Value = Service1.CapitalizeEachWord(validCharsRegex.Replace(BenefeciariesDataSheet.Cells[row2, primarynameasperbank].Text, ""));
                                         var ifsc = BenefeciariesDataSheet.Cells[row2, bfifsc].Text;
                                         ifsc = ifsc.Replace(" ", "");
                                         ifsc = Service1.ValidateIFSC(BenefeciariesDataSheet.ToString(), HRID, ifsc);
                                         if (ifsc.Length == 11) { outputWorksheet.Cells[row7, 29].Value = ifsc; }
-                                        outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, bfacno].GetValue<string>();
-                                        var bankname = BenefeciariesDataSheet.Cells[row2, bfbankname].GetValue<string>();
+                                        outputWorksheet.Cells[row7, 30].Value = BenefeciariesDataSheet.Cells[row2, bfacno].Text;
+                                        var bankname = BenefeciariesDataSheet.Cells[row2, bfbankname].Text;
                                         bankname = Service1.ShrinkString(bankname);
                                         bankname = bankname.Replace("ltd", "");
                                         bankname = bankname.Replace("limited", "");
@@ -441,7 +445,7 @@ namespace ExcelAutomationService
                                             code = Service1.getColumnNumber(ascendcodes, GradeSheet.ToString(), "code");
                                             for (int row3 = 1; row3 <= GradeLastRow; row3++)
                                             {
-                                                if ((GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))&& (inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower() != ""))
+                                                if ((GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))&& (inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower() != "") && (GradeSheet.Cells[row3, description].Text.ToLower() != ""))
                                                 {
                                                     outputWorksheet.Cells[row7, 52].Value = GradeSheet.Cells[row3, code].Text;
                                                 }

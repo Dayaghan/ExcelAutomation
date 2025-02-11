@@ -2,9 +2,11 @@
 using OfficeOpenXml;
 using OfficeOpenXml.Style;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 
 namespace ExcelAutomationService
 {
@@ -29,6 +31,9 @@ namespace ExcelAutomationService
                     var employeeData = new Dictionary<string, Dictionary<string, double>>();
                     var payElementCodes = new HashSet<string>();
                     HashSet<string> NewHrid = new HashSet<string>();
+                    List<string> CautionId= new List<string>();
+                    List<string> CautionDesc= new List<string>(); ;
+                    List<string> CautionAmt= new List<string>(); ;
                     // Read data from input sheet
                     for (int row = 2; row <= lastRow; row++)
                     {
@@ -83,15 +88,41 @@ namespace ExcelAutomationService
                                 outputWorksheet.Cells[rowIndex, i + 2].Value = amount;
                                 if (amount >= 1500000.00 && NewHrid.Contains(hrid))
                                 {
+                                    CautionId.Add(hrid);
+                                    CautionDesc.Add(payElement);
+                                    CautionAmt.Add(amount.ToString());
                                     Service1.PathLog(hrid +" : Kindly confirm the amount: "+amount+" in variable file for a new joiner.");
-                                    string[] recipients = { "dayaghan.limaye@paylineindia.com" };
-                                    string subject = "Alert: Amount in variable pay";
-                                    string body ="HRID:"+ hrid + " :\nThe amount: " + amount + " in variable sheet of client:"+ Path.GetFileName(filePath) +"\nis high for a new joiner.\nPlease take necessary actions.\n\nRegards,\nEmailService";
-                                    Service1.SendEmails(recipients, subject, body);
+                                    //string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: Amount in variable pay";
+                                    //string body ="HRID:"+ hrid + " :<br>The amount: " + amount + " in variable sheet of client:"+ Path.GetFileName(filePath) + "<br>is high for a new joiner.<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                    //Service1.SendEmails(Service1.recipients, subject, body);
                                 }
                             }
-
+                            
                             rowIndex++;
+                        }
+                        if (CautionId.Count != 0)
+                        {
+                            StringBuilder htmlTable = new StringBuilder();
+                            htmlTable.Append("<table border='1' style='border-collapse: collapse;'>");
+                            // Add table headers
+                            htmlTable.Append("<tr>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>HRID</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>PayElement Code</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>Amount</th>");
+                            htmlTable.Append("</tr>");
+                            // Add table rows
+                            for (int row8 = 0; row8 <= CautionId.Count - 1; row8++)
+                            {
+                                htmlTable.Append("<tr>");
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionId[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionDesc[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionAmt[row8]);
+                                htmlTable.Append("</tr>");
+                            }
+                            htmlTable.Append("</table>");
+                            string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: Amount in Variable file";
+                            string body = "Kindly confirm the variable pay amounts for a new joinner in input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                            Service1.SendEmails(Service1.recipients, subject, body);
                         }
                         for (int column = 1; column <= payElementCodes.Count + 1; column++)
                         {

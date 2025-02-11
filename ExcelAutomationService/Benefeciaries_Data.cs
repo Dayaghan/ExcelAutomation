@@ -89,6 +89,7 @@ namespace ExcelAutomationService
                                 bankname = bankname.Replace("ltd", "");
                                 bankname = bankname.Replace("limited", "");
                                 bankname = bankname.Replace("pvt", "");
+                                bankname = bankname.Replace("branch", "");
                                 bankname = bankname.Replace(".", "");
                                 bool containsBank = bankname.Contains("bank");
                                 if (!containsBank)

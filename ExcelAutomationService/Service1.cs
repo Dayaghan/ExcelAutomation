@@ -23,6 +23,9 @@ namespace ExcelAutomationService
         public static string archived = @"E:/PAYROLL_SERVER/Automation/Archived";
         public static int ErrorCount = 0;
         public static int FileCount = 1;
+        //public static string[] recipients = { "dayaghan.limaye@paylineindia.com", "dhanashree.athavale@paylineindia.com", "tushar.chaudhari@paylineindia.com", "office12@yaminipanchwagh.com" };
+        public static string[] recipients = { "dayaghan.limaye@paylineindia.com"};
+        public static string ClientName ="";
         Timer timer = new Timer();
         string sourceFolder = @"E:\PAYROLL_SERVER\Automation\Input";     // Folder to watch for Excel files
         public static string destination = @"E:/PAYROLL_SERVER/Automation/output";
@@ -58,7 +61,7 @@ namespace ExcelAutomationService
                             mail.To.Add(recipientEmail); // Add recipient email
                             mail.Subject = subject; // Email subject
                             mail.Body = body; // Email body
-                            mail.IsBodyHtml = false; // Set to true if the body contains HTML content
+                            mail.IsBodyHtml = true; // Set to true if the body contains HTML content
 
                             // Send the email
                             smtpClient.Send(mail);
@@ -355,6 +358,7 @@ namespace ExcelAutomationService
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             destination = destinationFolder;
                             Console.WriteLine(ascendcodes);
+                            ClientName=folderName;
                             break;
                         }
                     }
@@ -379,6 +383,7 @@ namespace ExcelAutomationService
                             destinationFolder = destinationFolder + "/" + folderName + " " + formattedDate;
                             destination = destinationFolder;
                             Console.WriteLine(ascendcodes);
+                            ClientName = folderName;
                             break;
                         }
                     }

@@ -50,7 +50,7 @@ namespace ExcelAutomationService
                     int nationality = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Nationality");
                     int Aadhar = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Aadhaar Card Number");
                     int uan = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Universal Account Number (UAN)");
-                    int ptlocation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), " PT Location");
+                    int ptlocation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "PT Location");
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     int FatherorHusbandName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name");
                     int lastColumn = inputWorkSheet.Dimension.End.Column;
@@ -199,6 +199,10 @@ namespace ExcelAutomationService
                                 {
                                     outputWorksheet.Cells[row7, 3].Value = Firstname;
                                     outputWorksheet.Cells[row7, 8].Value = Firstname+" "+LastName;
+                                    if (Firstname==LastName) 
+                                    {
+                                        outputWorksheet.Cells[row7, 8].Value = Firstname;
+                                    }
                                 }
                                 cell = inputWorkSheet.Cells[row, mn];
                                 var MiddleName = inputWorkSheet.Cells[row, mn].GetValue<string>();
@@ -359,7 +363,7 @@ namespace ExcelAutomationService
                                        
                                         for (int row3 = 1; row3 <= LocationsLastRow; row3++)
                                         {
-                                            if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower()))
+                                            if ((Service1.ShrinkString(LocationSheet.Cells[row3, description].Text).Equals(Service1.ShrinkString(outputWorksheet.Cells[row7, 56].Text)))&&(outputWorksheet.Cells[row7, 56].Text!="") && (LocationSheet.Cells[row3, description].Text != ""))
                                             {
                                                 outputWorksheet.Cells[row7, 56].Value = LocationSheet.Cells[row3, code].Text;
                                             }
@@ -505,29 +509,73 @@ namespace ExcelAutomationService
                         for (int i = worksheetCount - 1; i >= 1; i--)
                         {
                             var testworksheet = outputPackage.Workbook.Worksheets[i];
+                            StringBuilder htmlTable = new StringBuilder();
+                            htmlTable.Append("<table border='1' style='border-collapse: collapse;'>");
+                            int rows = testworksheet.Dimension.Rows;
+                            int cols = 2;
                             string sheetname = testworksheet.Cells[1, 2].GetCellValue<string>();
                             if (sheetname.ToLower().Contains("date of joining"))
                             {
-                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
-                                string subject = "Alert: DOJ change request";
-                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
-                                Service1.SendEmails(recipients, subject, body);
+                                for (int row8 = 1; row8 <= rows; row8++)
+                                {
+                                    htmlTable.Append("<tr>");
+                                    for (int col = 1; col <= cols; col++)
+                                    {
+                                        string cellValue = testworksheet.Cells[row8, col].Text;
+                                        if (row8 == 1) // Header row
+                                            htmlTable.Append($"<th style='background-color:lightgray;padding:5px;'>{cellValue}</th>");
+                                        else
+                                            htmlTable.Append($"<td style='padding:5px;'>{cellValue}</td>");
+                                    }
+                                    htmlTable.Append("</tr>");
+                                }
+                                htmlTable.Append("</table>");
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName)+":Automation Alert:DOJ change request";
+                                //string table = Service1.ReadExcelAsHtml(outputPackage, sheetname);
+                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Date Of Joining change is reuested");
                             }
                             if (sheetname.ToLower().Contains("birth"))
                             {
-                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
-                                string subject = "Alert: DOB change request";
-                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
-                                Service1.SendEmails(recipients, subject, body);
+                                for (int row8 = 1; row8 <= rows; row8++)
+                                {
+                                    htmlTable.Append("<tr>");
+                                    for (int col = 1; col <= cols; col++)
+                                    {
+                                        string cellValue = testworksheet.Cells[row8, col].Text;
+                                        if (row8 == 1) // Header row
+                                            htmlTable.Append($"<th style='background-color:lightgray;padding:5px;'>{cellValue}</th>");
+                                        else
+                                            htmlTable.Append($"<td style='padding:5px;'>{cellValue}</td>");
+                                    }
+                                    htmlTable.Append("</tr>");
+                                }
+                                htmlTable.Append("</table>");
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: DOB change request";
+                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Date Of Birth change is reuested");
                             }
                             if (sheetname.ToLower().Contains("gender"))
                             {
-                                string[] recipients = { "dayaghan.limaye@paylineindia.com" };
-                                string subject = "Alert: Gender change request";
-                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "\nPlease take necessary actions.\n\nRegards,\nEmailService";
-                                Service1.SendEmails(recipients, subject, body);
+                                for (int row8 = 1; row8 <= rows; row8++)
+                                {
+                                    htmlTable.Append("<tr>");
+                                    for (int col = 1; col <= cols; col++)
+                                    {
+                                        string cellValue = testworksheet.Cells[row8, col].Text;
+                                        if (row8 == 1) // Header row
+                                            htmlTable.Append($"<th style='background-color:lightgray;padding:5px;'>{cellValue}</th>");
+                                        else
+                                            htmlTable.Append($"<td style='padding:5px;'>{cellValue}</td>");
+                                    }
+                                    htmlTable.Append("</tr>");
+                                }
+                                htmlTable.Append("</table>");
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: Gender change request";
+                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Gender change is reuested");
                             }
                         }
