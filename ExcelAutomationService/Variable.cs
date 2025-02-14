@@ -32,8 +32,8 @@ namespace ExcelAutomationService
                     var payElementCodes = new HashSet<string>();
                     HashSet<string> NewHrid = new HashSet<string>();
                     List<string> CautionId= new List<string>();
-                    List<string> CautionDesc= new List<string>(); ;
-                    List<string> CautionAmt= new List<string>(); ;
+                    List<string> CautionDesc= new List<string>();
+                    List<double> CautionAmt= new List<double>();
                     // Read data from input sheet
                     for (int row = 2; row <= lastRow; row++)
                     {
@@ -90,7 +90,7 @@ namespace ExcelAutomationService
                                 {
                                     CautionId.Add(hrid);
                                     CautionDesc.Add(payElement);
-                                    CautionAmt.Add(amount.ToString());
+                                    CautionAmt.Add(amount);
                                     Service1.PathLog(hrid +" : Kindly confirm the amount: "+amount+" in variable file for a new joiner.");
                                     //string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: Amount in variable pay";
                                     //string body ="HRID:"+ hrid + " :<br>The amount: " + amount + " in variable sheet of client:"+ Path.GetFileName(filePath) + "<br>is high for a new joiner.<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
@@ -116,7 +116,7 @@ namespace ExcelAutomationService
                                 htmlTable.Append("<tr>");
                                 htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionId[row8]);
                                 htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionDesc[row8]);
-                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionAmt[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionAmt[row8].ToString("N2"));
                                 htmlTable.Append("</tr>");
                             }
                             htmlTable.Append("</table>");

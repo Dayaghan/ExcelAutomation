@@ -423,7 +423,7 @@ namespace ExcelAutomationService
                                 bgColor = cell.Style.Fill.BackgroundColor;
                                 if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
                                 {
-                                    // outputWorksheet.Cells[row7, 105].Value = Nationality;
+                                     outputWorksheet.Cells[row7, 105].Value = Nationality;
                                 }
 
                                 var Pension = inputWorkSheet.Cells[row, pension].GetValue<string>();
@@ -530,9 +530,9 @@ namespace ExcelAutomationService
                                     htmlTable.Append("</tr>");
                                 }
                                 htmlTable.Append("</table>");
-                                string subject = Service1.CapitalizeEachWord(Service1.ClientName)+":Automation Alert:DOJ change request";
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName)+": Automation Alert: DOJ change request";
                                 //string table = Service1.ReadExcelAsHtml(outputPackage, sheetname);
-                                string body = "Date Of Joining change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                string body = "Date Of Joining change is requested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
                                 Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Date Of Joining change is reuested");
                             }
@@ -552,8 +552,8 @@ namespace ExcelAutomationService
                                     htmlTable.Append("</tr>");
                                 }
                                 htmlTable.Append("</table>");
-                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: DOB change request";
-                                string body = "Date Of Birth change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: DOB change request";
+                                string body = "Date Of Birth change is requested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
                                 Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Date Of Birth change is reuested");
                             }
@@ -573,10 +573,31 @@ namespace ExcelAutomationService
                                     htmlTable.Append("</tr>");
                                 }
                                 htmlTable.Append("</table>");
-                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ":Automation Alert: Gender change request";
-                                string body = "Gender change is reuested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: Gender change request";
+                                string body = "Gender change is requested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
                                 Service1.SendEmails(Service1.recipients, subject, body);
                                 Service1.PathLog("Gender change is reuested");
+                            }
+                            if (sheetname.ToLower().Contains("nationality"))
+                            {
+                                for (int row8 = 1; row8 <= rows; row8++)
+                                {
+                                    htmlTable.Append("<tr>");
+                                    for (int col = 1; col <= cols; col++)
+                                    {
+                                        string cellValue = testworksheet.Cells[row8, col].Text;
+                                        if (row8 == 1) // Header row
+                                            htmlTable.Append($"<th style='background-color:lightgray;padding:5px;'>{cellValue}</th>");
+                                        else
+                                            htmlTable.Append($"<td style='padding:5px;'>{cellValue}</td>");
+                                    }
+                                    htmlTable.Append("</tr>");
+                                }
+                                htmlTable.Append("</table>");
+                                string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: Nationality change request";
+                                string body = "Nationality change is requested in the client input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                                Service1.SendEmails(Service1.recipients, subject, body);
+                                Service1.PathLog("Nationality change is reuested");
                             }
                         }
                         string newFileName = Path.Combine(destinationFolder,Service1.FileCount+ "]Existing_Changes_Master" + Path.GetFileName(filePath));

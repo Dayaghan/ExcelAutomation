@@ -23,8 +23,8 @@ namespace ExcelAutomationService
         public static string archived = @"E:/PAYROLL_SERVER/Automation/Archived";
         public static int ErrorCount = 0;
         public static int FileCount = 1;
-        //public static string[] recipients = { "dayaghan.limaye@paylineindia.com", "dhanashree.athavale@paylineindia.com", "tushar.chaudhari@paylineindia.com", "office12@yaminipanchwagh.com" };
-        public static string[] recipients = { "dayaghan.limaye@paylineindia.com"};
+        public static string[] recipients = { "dayaghan.limaye@paylineindia.com", "dhanashree.athavale@paylineindia.com", "tushar.chaudhari@paylineindia.com", "office12@yaminipanchwagh.com" };
+       // public static string[] recipients = { "dayaghan.limaye@paylineindia.com"};
         public static string ClientName ="";
         Timer timer = new Timer();
         string sourceFolder = @"E:\PAYROLL_SERVER\Automation\Input";     // Folder to watch for Excel files
@@ -45,7 +45,6 @@ namespace ExcelAutomationService
                 int smtpPort = 587; // Port number (e.g., 587 for TLS, 465 for SSL)
                 string smtpUser = "donotreplyservice.trial@gmail.com"; // Replace with your email
                 string smtpPass = "sepw vpre vcdb usal"; // Replace with your email password
-
                 // Initialize the SMTP client
                 using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
                 {
@@ -62,14 +61,12 @@ namespace ExcelAutomationService
                             mail.Subject = subject; // Email subject
                             mail.Body = body; // Email body
                             mail.IsBodyHtml = true; // Set to true if the body contains HTML content
-
                             // Send the email
                             smtpClient.Send(mail);
                             Console.WriteLine($"Email sent to: {recipientEmail}");
                         }
                     }
                 }
-                 // All emails sent successfully
             }
             catch (Exception ex)
             {
@@ -330,10 +327,22 @@ namespace ExcelAutomationService
             //Log("Press Enter to exit...");
             Console.ReadLine();
         }
+        public static void GetAlertmails() {
+            string Alerts = @"E:\PAYROLL_SERVER\Automation\Config\Alerts.txt";
+            if (File.Exists(Alerts))
+            {
+                recipients = File.ReadAllLines(Alerts);
+            }
+            else
+            {
+                Console.WriteLine("File not found.");
+            }
+        }
         public static async Task ProcessFile(string ascendcodes, string filePath, string destinationFolder)
         {
             try
             {
+                //GetAlertmails();
                 DateTime now = DateTime.Now;
                 // Format the month and year as "Month_Year"
                 string formattedDate = $"{now:dd_MMMM_yyyy}";
@@ -410,6 +419,7 @@ namespace ExcelAutomationService
                 }
                 // Call the relevant methods to process the file
                 await Task.Run(() => New_Joinee_Master.NewJoinee_Master(ascendcodes, filePath, destinationFolder));
+                await Task.Run(() => Rehire_Master.rehire_Master(ascendcodes, filePath, destinationFolder));
                 if (filePath.ToLower().Contains("synchronoss"))
                 {
                     await Task.Run(() => Synchronoss_new_CTC.CTC_Master(ascendcodes, filePath, destinationFolder));

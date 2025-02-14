@@ -1,20 +1,17 @@
-﻿using Microsoft.Office.Interop.Excel;
-using OfficeOpenXml;
-using OfficeOpenXml.Style;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using OfficeOpenXml;
 
 namespace ExcelAutomationService
 {
-    public class New_Joinee_Master
+    public class Rehire_Master
     {
-        public static void NewJoinee_Master(string ascendcodes, string filePath, string destinationFolder)
+        public static void rehire_Master(string ascendcodes, string filePath, string destinationFolder)
         {
             try
             {
@@ -58,13 +55,12 @@ namespace ExcelAutomationService
                     int bfacno = Service1.getColumnNumber(filePath, BenefeciariesDataSheet.ToString(), "Account Number");
                     int nationality = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Nationality");
                     int ptlocation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), " PT Location");
-                    int FatherorHusbandName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name");
+                    int FatherorHusbandName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Father or Husband Name"); 
+                    int EventType = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Event Type");
                     int relation = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Relation");
                     int lastRow = inputWorkSheet.Dimension.End.Row;
                     int EmployeeGrade = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Employee Grade");
                     int BenefeciarieslastRow = BenefeciariesDataSheet.Dimension.End.Row;
-                    List<string> CautionId = new List<string>();
-                    List<string> CautionNationality = new List<string>();
                     using (var outputPackage = new ExcelPackage())
                     {
                         var outputWorksheet = outputPackage.Workbook.Worksheets.Add("New Joinee_Master");
@@ -191,10 +187,8 @@ namespace ExcelAutomationService
                         int row7 = 2;
                         for (row = 2; row <= lastRow; row++)
                         {
-                            var cell = inputWorkSheet.Cells[row, employeenumber];
-                            // Get the background color of the cell
-                            var bgColor = cell.Style.Fill.BackgroundColor;
-                            if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                            string eventtype = inputWorkSheet.Cells[row, EventType].Text;
+                            if (Service1.ShrinkString(eventtype).Equals("re-hire"))
                             {
                                 var HRID = inputWorkSheet.Cells[row, 2].Text;
                                 outputWorksheet.Cells[row7, 1].Value = HRID;
@@ -317,11 +311,6 @@ namespace ExcelAutomationService
                                 }
                                 var Nationality = inputWorkSheet.Cells[row, nationality].Text;
                                 outputWorksheet.Cells[row7, 105].Value = Nationality;
-                                if (Service1.ShrinkString(Nationality)!="ind" && Service1.ShrinkString(Nationality) != "") 
-                                {
-                                    CautionId.Add(HRID);
-                                    CautionNationality.Add(Nationality);
-                                }
                                 var Pension = inputWorkSheet.Cells[row, pension].GetValue<string>();
                                 Pension = Pension.ToLower();
                                 Pension = Pension.Replace(" ", "");
@@ -445,7 +434,7 @@ namespace ExcelAutomationService
                                             }
                                             for (int row3 = 1; row3 <= LocationsLastRow; row3++)
                                             {
-                                                if (Service1.ShrinkString(LocationSheet.Cells[row3, description].Text).Equals(Service1.ShrinkString(outputWorksheet.Cells[row7, 56].Text)))
+                                                if (LocationSheet.Cells[row3, description].Text.ToLower().Equals(outputWorksheet.Cells[row7, 56].Text.ToLower()))
                                                 {
                                                     outputWorksheet.Cells[row7, 56].Value = LocationSheet.Cells[row3, code].Text;
                                                 }
@@ -454,7 +443,7 @@ namespace ExcelAutomationService
                                             code = Service1.getColumnNumber(ascendcodes, GradeSheet.ToString(), "code");
                                             for (int row3 = 1; row3 <= GradeLastRow; row3++)
                                             {
-                                                if ((GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower()))&& (inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower() != "") && (GradeSheet.Cells[row3, description].Text.ToLower() != ""))
+                                                if ((GradeSheet.Cells[row3, description].Text.ToLower().Equals(inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower())) && (inputWorkSheet.Cells[row, EmployeeGrade].Text.ToLower() != "") && (GradeSheet.Cells[row3, description].Text.ToLower() != ""))
                                                 {
                                                     outputWorksheet.Cells[row7, 52].Value = GradeSheet.Cells[row3, code].Text;
                                                 }
@@ -465,29 +454,7 @@ namespace ExcelAutomationService
                                 row7++;
                             }
                         }
-                        if (CautionId.Count != 0)
-                        {
-                            StringBuilder htmlTable = new StringBuilder();
-                            htmlTable.Append("<table border='1' style='border-collapse: collapse;'>");
-                            // Add table headers
-                            htmlTable.Append("<tr>");
-                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>HRID</th>");
-                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>Nationality</th>");
-                            htmlTable.Append("</tr>");
-                            // Add table rows
-                            for (int row8 = 0; row8 <= CautionId.Count - 1; row8++)
-                            {
-                                htmlTable.Append("<tr>");
-                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionId[row8]);
-                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionNationality[row8]);
-                                htmlTable.Append("</tr>");
-                            }
-                            htmlTable.Append("</table>");
-                            string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: Nationality in new joiner";
-                            string body = "The nationality of new joinners is different in input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
-                            Service1.SendEmails(Service1.recipients, subject, body);
-                        }
-                        string newFileName = Path.Combine(destinationFolder, Service1.FileCount + "]New Joinee_Master" + Path.GetFileName(filePath));
+                        string newFileName = Path.Combine(destinationFolder, Service1.FileCount + "]Rehire_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
                         outputWorksheet.Cells[outputWorksheet.Dimension.Address].AutoFitColumns();
                         string cellValue = outputWorksheet.Cells[2, 1].GetValue<string>();
@@ -500,7 +467,7 @@ namespace ExcelAutomationService
                         }
                         else
                         {
-                            Service1.PathLog("no new joiners file created");
+                            //Service1.PathLog("no new joiners file created");
                         }
                     }
                 }
