@@ -28,6 +28,7 @@ namespace ExcelAutomationService
                     //var OrgAssignmentsDataSheet = package.Workbook.Worksheets["Org Assignments"];
                     //int OrgAssignmentsDataSheetLastRow = OrgAssignmentsDataSheet.Dimension.End.Row;
                     int employeenumber = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "HR ID");
+                    int EventType = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Event Type");
                     int Aadhar = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Aadhaar Card Number");
                     int uan = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Universal Account Number (UAN)");
                     int PreferredName = Service1.getColumnNumber(filePath, inputWorkSheet.ToString(), "Preferred Name");
@@ -194,7 +195,9 @@ namespace ExcelAutomationService
                             var cell = inputWorkSheet.Cells[row, employeenumber];
                             // Get the background color of the cell
                             var bgColor = cell.Style.Fill.BackgroundColor;
-                            if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF"))
+                            string eventtype = inputWorkSheet.Cells[row, EventType].Text;
+                            eventtype=Service1.ShrinkString(eventtype);
+                            if (!string.IsNullOrEmpty(bgColor.Rgb) && !bgColor.Rgb.Equals("FFFFFF")&&eventtype!= "re-hire")
                             {
                                 var HRID = inputWorkSheet.Cells[row, 2].Text;
                                 outputWorksheet.Cells[row7, 1].Value = HRID;
@@ -271,13 +274,14 @@ namespace ExcelAutomationService
                                 outputWorksheet.Cells[row7, 52].Value = empgr;
                                 outputWorksheet.Cells[row7, 74].Value = HRID;
                                 outputWorksheet.Cells[row7, 31].Value = "00000";
-                                var date = inputWorkSheet.Cells[row, 9].GetValue<string>();
+                                var date = inputWorkSheet.Cells[row, dob].GetValue<string>();
                                 date = date.Replace(" ", "");
                                 if ((date.Length == 10) && (date[4] == '-'))
                                 {
                                     outputWorksheet.Cells[row7, 40].Value = date;
                                 }
-                                date = inputWorkSheet.Cells[row, 14].GetValue<string>();
+                                date = inputWorkSheet.Cells[row, payrollstartdate].GetValue<string>();
+
                                 date = date.Replace(" ", "");
                                 if ((date.Length == 10) && (date[4] == '-'))
                                 {
@@ -388,6 +392,10 @@ namespace ExcelAutomationService
                                     n = Service1.getSheetNumber(ascendcodes, "Payroll Code");
                                     var AscendPayrollCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[2, 1].GetValue<string>();
+                                    if (filePath.ToLower().Contains("anthology")&& PTLocation.ToLower().Contains("chennai")) 
+                                    {
+                                        outputWorksheet.Cells[row7, 34].Value = AscendPayrollCode.Cells[3, 1].GetValue<string>();
+                                    }
                                     n = Service1.getSheetNumber(ascendcodes, "P.F. Registration Code");
                                     var AscendPFRegistrationCode = package4.Workbook.Worksheets[n];
                                     outputWorksheet.Cells[row7, 61].Value = AscendPFRegistrationCode.Cells[2, 2].GetValue<string>();

@@ -41,10 +41,10 @@ namespace ExcelAutomationService
             try
             {
                 // SMTP server configuration
-                string smtpHost = "smtp.gmail.com"; // Replace with your SMTP server
+                string smtpHost = "smtp.office365.com"; // Replace with your SMTP server
                 int smtpPort = 587; // Port number (e.g., 587 for TLS, 465 for SSL)
-                string smtpUser = "donotreplyservice.trial@gmail.com"; // Replace with your email
-                string smtpPass = "sepw vpre vcdb usal"; // Replace with your email password
+                string smtpUser = "donot_reply@paylineindia.com"; // Replace with your email
+                string smtpPass = "D0n0t$ep!y"; // Replace with your email password
                 // Initialize the SMTP client
                 using (SmtpClient smtpClient = new SmtpClient(smtpHost, smtpPort))
                 {
@@ -68,10 +68,24 @@ namespace ExcelAutomationService
                     }
                 }
             }
+            catch (FormatException ex)
+            {
+               PathLog($"🚨 Invalid Email Format: {ex.Message}");
+            }
+            catch (SmtpFailedRecipientException ex)
+            {
+                PathLog($"❌ Failed to deliver email to {ex.FailedRecipient}: {ex.Message}");
+            }
+            catch (SmtpException ex)
+            {
+                PathLog($"❌ SMTP Error: {ex.Message}");
+            }
             catch (Exception ex)
             {
                 Log($"Error sending emails: {ex.Message}");
-               // Return false if any email fails to send
+                PathLog($"Error sending emails: {ex.Message}");
+                PathLog("Kindly inform managers that email alert was not sent successfully!!!");
+                // Return false if any email fails to send
             }
         }
         public static string CapitalizeEachWord(string input)
@@ -335,14 +349,14 @@ namespace ExcelAutomationService
             }
             else
             {
-                Console.WriteLine("File not found.");
+                recipients= new string[] { "dayaghan.limaye@paylineindia.com", "dhanashree.athavale@paylineindia.com", "tushar.chaudhari@paylineindia.com", "office12@yaminipanchwagh.com"};
             }
         }
         public static async Task ProcessFile(string ascendcodes, string filePath, string destinationFolder)
         {
             try
             {
-                //GetAlertmails();
+                GetAlertmails();
                 DateTime now = DateTime.Now;
                 // Format the month and year as "Month_Year"
                 string formattedDate = $"{now:dd_MMMM_yyyy}";

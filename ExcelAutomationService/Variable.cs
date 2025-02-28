@@ -135,9 +135,10 @@ namespace ExcelAutomationService
                             bool containsHoliday = temp.Contains("holiday");
                             bool containsOvertime = temp.Contains("overtime");
                             bool containsShift = temp.Contains("shift");
-                            if (containsEncashment || containsHoliday || containsOvertime || containsShift)
+                            bool extrahourspay = temp.Contains("extrahours");
+                            if (containsEncashment || containsHoliday || containsOvertime || containsShift|| extrahourspay)
                             {
-                                Service1.PathLog("check for encashment/holiday/Overtime/shift is in units or amount in variable file.");
+                                Service1.PathLog("check for encashment/holiday/Overtime/shift/extrahours is in units or amount in variable file.");
                                 int OutputLastRow = outputWorksheet.Dimension.End.Row;
                                 // Define the range for the entire column
                                 var columnRange = outputWorksheet.Cells[1, column, OutputLastRow, column];

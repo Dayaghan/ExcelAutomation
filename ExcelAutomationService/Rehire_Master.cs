@@ -184,6 +184,11 @@ namespace ExcelAutomationService
                         outputWorksheet.Cells[1, 114].Value = "Division Code";
                         outputWorksheet.Cells[1, 115].Value = "Training End Date (YYYY-MM-DD)";
                         outputWorksheet.Cells[1, 116].Value = "Probation End Date (YYYY-MM-DD)";
+                        List<string> CautionId = new List<string>();
+                        List<string> evtype = new List<string>();
+                        List<string> doj = new List<string>();
+                        List<string> nm = new List<string>();
+                        List<string> UACN = new List<string>();
                         int row7 = 2;
                         for (row = 2; row <= lastRow; row++)
                         {
@@ -191,6 +196,8 @@ namespace ExcelAutomationService
                             if (Service1.ShrinkString(eventtype).Equals("re-hire"))
                             {
                                 var HRID = inputWorkSheet.Cells[row, 2].Text;
+                                CautionId.Add(HRID);
+                                evtype.Add(eventtype);
                                 outputWorksheet.Cells[row7, 1].Value = HRID;
                                 var Firstname = inputWorkSheet.Cells[row, fn].Text;
                                 var MiddleName = inputWorkSheet.Cells[row, mn].Text;
@@ -210,6 +217,7 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 5].Value = LastName;
                                 }
                                 outputWorksheet.Cells[row7, 8].Value = Firstname + " " + LastName;
+                                nm.Add(Firstname + " " + LastName);
                                 if (Service1.ShrinkString(Firstname) == Service1.ShrinkString(LastName))
                                 {
                                     outputWorksheet.Cells[row7, 8].Value = Firstname;
@@ -265,13 +273,14 @@ namespace ExcelAutomationService
                                 outputWorksheet.Cells[row7, 52].Value = empgr;
                                 outputWorksheet.Cells[row7, 74].Value = HRID;
                                 outputWorksheet.Cells[row7, 31].Value = "00000";
-                                var date = inputWorkSheet.Cells[row, 9].GetValue<string>();
+                                var date = inputWorkSheet.Cells[row, dob].Text;
                                 date = date.Replace(" ", "");
                                 if ((date.Length == 10) && (date[4] == '-'))
                                 {
                                     outputWorksheet.Cells[row7, 40].Value = date;
                                 }
-                                date = inputWorkSheet.Cells[row, 14].GetValue<string>();
+                                date = inputWorkSheet.Cells[row, payrollstartdate].Text;
+                                doj.Add(date);
                                 date = date.Replace(" ", "");
                                 if ((date.Length == 10) && (date[4] == '-'))
                                 {
@@ -280,16 +289,14 @@ namespace ExcelAutomationService
                                     outputWorksheet.Cells[row7, 103].Value = date;
                                 }
                                 var pan = inputWorkSheet.Cells[row, pancard].Text;
-
                                 pan = Service1.ValidatePAN(inputWorkSheet.ToString(), HRID, pan);
                                 outputWorksheet.Cells[row7, 60].Value = pan;
-
                                 var adhaar = (inputWorkSheet.Cells[row, Aadhar].Text).Replace(" ", "");
-
                                 adhaar = Service1.ValidateAadhar(inputWorkSheet.ToString(), HRID, adhaar);
                                 outputWorksheet.Cells[row7, 94].Value = adhaar;
                                 var UAN = inputWorkSheet.Cells[row, uan].Text;
                                 outputWorksheet.Cells[row7, 100].Value = UAN;
+                                UACN.Add(UAN);
                                 if (UAN == "" || UAN == null)
                                 {
                                     Service1.PathLog(HRID + " :UAN is not present in " + inputWorkSheet.ToString() + " sheet.");
@@ -453,6 +460,34 @@ namespace ExcelAutomationService
                                 }
                                 row7++;
                             }
+                        }
+                        if (CautionId.Count != 0)
+                        {
+                            StringBuilder htmlTable = new StringBuilder();
+                            htmlTable.Append("<table border='1' style='border-collapse: collapse;'>");
+                            // Add table headers
+                            htmlTable.Append("<tr>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>HRID</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>Name</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>Event type</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>Payroll start date</th>");
+                            htmlTable.Append("<th style='background-color:lightgray;padding:5px;'>UAN</th>");
+                            htmlTable.Append("</tr>");
+                            // Add table rows
+                            for (int row8 = 0; row8 <= CautionId.Count - 1; row8++)
+                            {
+                                htmlTable.Append("<tr>");
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", CautionId[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", nm[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", evtype[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", doj[row8]);
+                                htmlTable.AppendFormat("<td style='padding:5px;'>{0}</td>", UACN[row8]);
+                                htmlTable.Append("</tr>");
+                            }
+                            htmlTable.Append("</table>");
+                            string subject = Service1.CapitalizeEachWord(Service1.ClientName) + ": Automation Alert: Rehire cases";
+                            string body = "Rehire cases are found in input file: " + Path.GetFileName(filePath) + "<br><br>" + htmlTable.ToString() + "<br>Please take necessary actions.<br><br>Regards,<br>Automation Team";
+                            Service1.SendEmails(Service1.recipients, subject, body);
                         }
                         string newFileName = Path.Combine(destinationFolder, Service1.FileCount + "]Rehire_Master" + Path.GetFileName(filePath));
                         FileInfo newFileInfo = new FileInfo(newFileName);
